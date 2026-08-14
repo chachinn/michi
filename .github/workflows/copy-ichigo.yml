@@ -38,3 +38,5 @@ jobs:
             git commit -m "Copy current Ichigo main baseline"
             git push origin main
           fi
+
+# Trigger one-time baseline copy
