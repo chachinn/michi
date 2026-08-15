@@ -13,15 +13,15 @@
   <meta name="format-detection" content="telephone=no">
   <title>Michi 道</title>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-v41.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192-v41.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512-v41.png">
-  <link rel="manifest" href="./manifest.json?v=20260815-michi-redesign-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-v42.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192-v42.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512-v42.png">
+  <link rel="manifest" href="./manifest.json?v=20260815-michi-brandfix-2">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="./style.css?v=20260815-michi-redesign-1">
-  <link rel="stylesheet" href="./michi.css?v=20260815-michi-redesign-1">
-  <link rel="stylesheet" href="./michi-ui.css?v=20260815-michi-redesign-1">
+  <link rel="stylesheet" href="./style.css?v=20260815-michi-brandfix-2">
+  <link rel="stylesheet" href="./michi.css?v=20260815-michi-brandfix-2">
+  <link rel="stylesheet" href="./michi-ui.css?v=20260815-michi-brandfix-2">
 </head>
 <body>
   <a class="skip-link" href="#mainView">Skip to content</a>
@@ -29,7 +29,7 @@
     <header class="topbar topbar-v8 michi-topbar">
       <button class="icon-btn menu-btn-v8" data-action="open-drawer-v8" aria-label="Open Michi menu" title="Menu">☰</button>
       <button class="brand brand-v8 michi-brand" data-action="go-home" aria-label="Go to Michi home">
-        <span class="michi-brand-mark"><img src="./icons/icon-192-v41.png" alt=""></span>
+        <span class="michi-brand-mark"><img src="./icons/icon-192-v42.png" alt=""></span>
         <span class="michi-wordmark"><strong>michi</strong><small>道</small></span>
       </button>
       <div class="top-actions top-actions-v8">
@@ -42,7 +42,7 @@
 
     <main id="mainView" class="main-view" aria-live="polite">
       <section id="michiBootScreen" class="boot-screen-v92 michi-boot">
-        <div class="michi-boot-icon"><img src="./icons/icon-192-v41.png" alt=""></div>
+        <div class="michi-boot-icon"><img src="./icons/icon-192-v42.png" alt=""></div>
         <strong>Opening Michi…</strong>
         <small>Getting your journey ready.</small>
         <div class="michi-boot-path" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -80,7 +80,7 @@
       var main = document.getElementById('mainView');
       if (!main) return;
       main.innerHTML = '<section class="boot-recovery-v92 michi-recovery">' +
-        '<img src="./icons/icon-192-v41.png" alt="">' +
+        '<img src="./icons/icon-192-v42.png" alt="">' +
         '<p class="eyebrow">MICHI RECOVERY</p>' +
         '<h1>Michi had trouble opening.</h1>' +
         '<p>Your local trip data has not been erased. Reload the app and try again.</p>' +
@@ -106,9 +106,9 @@
   </script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="./data/data.js?v=20260815-michi-redesign-1"></script>
-  <script src="./data/db.js?v=20260815-michi-redesign-1"></script>
-  <script src="./app.js?v=20260815-michi-redesign-1"></script>
-  <script src="./michi.js?v=20260815-michi-redesign-1"></script>
+  <script src="./data/data.js?v=20260815-michi-brandfix-2"></script>
+  <script src="./data/db.js?v=20260815-michi-brandfix-2"></script>
+  <script src="./app.js?v=20260815-michi-brandfix-2"></script>
+  <script src="./michi.js?v=20260815-michi-brandfix-2"></script>
 </body>
 </html>

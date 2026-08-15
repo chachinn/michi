@@ -5,7 +5,7 @@
    ========================================================== */
 "use strict";
 
-const MICHI_UI_VERSION = "1.0.0";
+const MICHI_UI_VERSION = "1.0.1";
 const MICHI_NAME = "Michi";
 
 (function bootMichiPresentation(){
@@ -40,10 +40,10 @@ const MICHI_NAME = "Michi";
       .replace(/sweet little adventures/gi,"your next journey")
       .replace(/Let's plan something sweet!/gi,"Where will the path take you?")
       .replace(/a sweet little memory/gi,"a journey to remember")
-      .replace(/🍓 Today's itinerary/g,"✦ Today's route")
-      .replace(/New trip created 🍓/g,"New trip created ✦")
-      .replace(/Welcome to Michi 🍓/g,"Welcome to Michi ✦")
-      .replace(/You are here 🍓/g,"You are here ✦");
+      .replace(/✦ Today's itinerary/g,"✦ Today's route")
+      .replace(/New trip created ✦/g,"New trip created ✦")
+      .replace(/Welcome to Michi ✦/g,"Welcome to Michi ✦")
+      .replace(/You are here ✦/g,"You are here ✦");
   }
 
   function replaceSystemMotifs(root=document){
@@ -52,14 +52,14 @@ const MICHI_NAME = "Michi";
       const parent=node.parentElement;
       if(!parent||/^(SCRIPT|STYLE|TEXTAREA|INPUT|OPTION)$/i.test(parent.tagName))return NodeFilter.FILTER_REJECT;
       const text=node.nodeValue||"";
-      if(text.trim()==="🍓")return NodeFilter.FILTER_ACCEPT;
-      if(/DAY\s+\d+.*🍓|You are here 🍓|Welcome to Michi 🍓|New trip created 🍓/.test(text))return NodeFilter.FILTER_ACCEPT;
+      if(text.trim()==="✦")return NodeFilter.FILTER_ACCEPT;
+      if(/DAY\s+\d+.*✦|You are here ✦|Welcome to Michi ✦|New trip created ✦/.test(text))return NodeFilter.FILTER_ACCEPT;
       return NodeFilter.FILTER_REJECT;
     }});
     const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
     nodes.forEach(node=>{
       const text=node.nodeValue||"";
-      node.nodeValue=text.trim()==="🍓"?text.replace("🍓","✦"):text.replace(/🍓/g,"✦");
+      node.nodeValue=text.trim()==="✦"?text.replace("✦","✦"):text.replace(/✦/g,"✦");
     });
   }
 
@@ -68,7 +68,7 @@ const MICHI_NAME = "Michi";
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
       const p=node.parentElement;
       if(!p||/^(SCRIPT|STYLE|TEXTAREA|OPTION)$/i.test(p.tagName))return NodeFilter.FILTER_REJECT;
-      return /ichigo|sweet little adventures|plan something sweet|🍓 Today's itinerary/i.test(node.nodeValue||"")?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+      return /ichigo|sweet little adventures|plan something sweet|✦ Today's itinerary/i.test(node.nodeValue||"")?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
     }});
     const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
     nodes.forEach(n=>{n.nodeValue=replaceMichiText(n.nodeValue)});

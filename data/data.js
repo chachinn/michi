@@ -96,7 +96,7 @@ Object.assign(window.ICHIGO_DATA, {
   inboxTypes: ["Place idea", "Activity idea", "Booking", "Food", "Link", "Note", "Screenshot"],
 
   themePresets: [
-    { id: "strawberry", label: "Strawberry Milk", accent: "#ff6f91" },
+    { id: "strawberry", label: "Sakura Path", accent: "#ff6f91" },
     { id: "lavender", label: "Lavender Sky", accent: "#9b7ad8" },
     { id: "peach", label: "Peach Sorbet", accent: "#f28e78" },
     { id: "matcha", label: "Matcha Cream", accent: "#79a878" },
@@ -213,7 +213,7 @@ Object.assign(window.ICHIGO_DATA, {
   planningPacesV7: [
     { id:"relaxed", label:"🌿 Relaxed — more breathing room", buffer:20 },
     { id:"comfortable", label:"🌸 Comfortable — balanced", buffer:12 },
-    { id:"busy", label:"🍓 Busy — fit more in", buffer:6 }
+    { id:"busy", label:"✦ Busy — fit more in", buffer:6 }
   ],
 
   dashboardWidgetsV7: [
