@@ -129,3 +129,5 @@ self.addEventListener("message", event => {
   if(event.data?.type==="CLEAR_RUNTIME")event.waitUntil(Promise.all([caches.delete(RUNTIME_CACHE),caches.delete(TILE_CACHE)]));
   if(event.data?.type==="WARM_SHELL")event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
 });
+
+/* Deployment marker: Michi redesign published from main on 2026-08-15. */
