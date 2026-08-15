@@ -1,4 +1,4 @@
-/* Ichigo Recovery Build 9.2 — canonical runtime version. */
+/* Michi Recovery Build 9.2 — canonical runtime version. */
 const ICHIGO_CURRENT_VERSION = "9.2.0";
 const ICHIGO_CURRENT_SCHEMA = 9;
 
@@ -272,7 +272,7 @@ function infoHTML(){
   const t=trip();return `<div class="card" style="padding:16px"><div class="form-grid"><div class="form-row"><label>TRIP NAME</label><input id="infoTitle" value="${esc(t.title)}"></div><div class="form-row"><label>DESTINATION</label><input id="infoDestination" value="${esc(t.destination)}"></div><div class="form-row two"><div><label>START</label><input id="infoStart" type="date" value="${t.startDate}"></div><div><label>END</label><input id="infoEnd" type="date" value="${t.endDate}"></div></div><div class="form-row two"><div><label>BASE CURRENCY</label><select id="infoCurrency">${currencyOptions(t.baseCurrency)}</select></div><div><label>HOME CURRENCY</label><select id="infoHomeCurrency">${currencyOptions(t.homeCurrency)}</select></div></div><button class="btn primary" data-action="save-trip-info">Save trip info</button></div></div>`
 }
 function settingsHTML(){
-  return `<div class="card" style="padding:16px"><div class="section-title"><h3>Local data</h3></div><p class="meta">Build 1 stores your trip on this device. No login or backend is required.</p><div class="btn-row" style="margin-top:12px"><button class="btn soft" data-action="export-data">Export backup</button><button class="btn" data-action="import-data">Import backup</button></div><input id="importFile" type="file" accept="application/json" hidden><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div class="section-title"><h3>PWA / offline</h3></div><p class="meta">Install Ichigo from your browser. The app shell is cached by the service worker.</p><button class="btn soft" data-action="install-app">Install Ichigo</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><button class="btn danger full" data-action="reset-demo">Reset all local data</button></div>`
+  return `<div class="card" style="padding:16px"><div class="section-title"><h3>Local data</h3></div><p class="meta">Build 1 stores your trip on this device. No login or backend is required.</p><div class="btn-row" style="margin-top:12px"><button class="btn soft" data-action="export-data">Export backup</button><button class="btn" data-action="import-data">Import backup</button></div><input id="importFile" type="file" accept="application/json" hidden><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div class="section-title"><h3>PWA / offline</h3></div><p class="meta">Install Michi from your browser. The app shell is cached by the service worker.</p><button class="btn soft" data-action="install-app">Install Michi</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><button class="btn danger full" data-action="reset-demo">Reset all local data</button></div>`
 }
 
 function openModal(title,html){
@@ -331,7 +331,7 @@ document.addEventListener("click",e=>{
   if(a==="export-data"){download(`ichigo-backup-${isoToday()}.json`,JSON.stringify(state,null,2));notify("Backup exported")}
   if(a==="import-data")document.querySelector("#importFile")?.click()
   if(a==="install-app")install()
-  if(a==="reset-demo"&&confirm("Erase all local Ichigo data on this device?")){localStorage.removeItem(STORE);state=clone(initial);save();render();notify("Ichigo reset")}
+  if(a==="reset-demo"&&confirm("Erase all local Michi data on this device?")){localStorage.removeItem(STORE);state=clone(initial);save();render();notify("Michi reset")}
   if(a==="toggle-online-info")notify(navigator.onLine?"Online. Saved data will also remain available offline.":"Offline mode active. Your saved trip essentials still work.")
 })
 
@@ -340,7 +340,7 @@ document.addEventListener("change",e=>{
   if(x.dataset.action==="toggle-pack"){const i=trip().packing.find(y=>y.id===x.dataset.id);if(i)i.done=x.checked;save();render()}
   if(x.dataset.action==="toggle-pretrip"){const i=trip().preTrip.find(y=>y.id===x.dataset.id);if(i)i.done=x.checked;save();render()}
   if(["convFrom","convTo"].includes(x.id))calculate(false)
-  if(x.id==="importFile"&&x.files?.[0]){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.trips)||!d.trips.length)throw Error();state=d;save();render();notify("Backup imported")}catch{alert("That is not a valid Ichigo backup.")}};r.readAsText(x.files[0])}
+  if(x.id==="importFile"&&x.files?.[0]){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.trips)||!d.trips.length)throw Error();state=d;save();render();notify("Backup imported")}catch{alert("That is not a valid Michi backup.")}};r.readAsText(x.files[0])}
 })
 document.addEventListener("input",e=>{
   if(e.target.id==="placeSearch"){const q=e.target.value.toLowerCase(),arr=trip().places.filter(p=>`${p.name} ${p.area} ${p.category} ${p.notes}`.toLowerCase().includes(q));document.querySelector("#placeList").innerHTML=placeRows(arr)}
@@ -693,7 +693,7 @@ function checkTaskRemindersV2() {
   localStorage.setItem(key, today);
 
   if (window.Notification?.permission === "granted") {
-    try { new Notification("Ichigo ✦", { body:`${items.length} pre-trip task${items.length===1?" is":"s are"} due.`, icon:"icons/icon-192.png" }); }
+    try { new Notification("Michi ✦", { body:`${items.length} pre-trip task${items.length===1?" is":"s are"} due.`, icon:"icons/icon-192.png" }); }
     catch {}
   }
 }
@@ -755,7 +755,7 @@ function renderHome() {
         <button class="quick-btn" data-action="quick-add-type" data-type="booking"><span>🎟️</span><small>Booking</small></button>
         <button class="quick-btn" data-action="quick-add-type" data-type="memory"><span>📸</span><small>Memory</small></button>
       </div>
-      <div class="card sweet-banner"><div class="mascot">✦</div><div><strong>${st==="completed"?"This trip has become a keepsake.":st==="active"?"Today Mode is ready for you.":"Plan it → Live it → Remember it."}</strong><p>${st==="completed"?"Open the scrapbook and recap whenever you want to revisit it.":st==="active"?"Keep Today open while you move around — the essentials are one tap away.":"Build the itinerary now; Ichigo transforms with the trip later."}</p></div></div>
+      <div class="card sweet-banner"><div class="mascot">✦</div><div><strong>${st==="completed"?"This trip has become a keepsake.":st==="active"?"Today Mode is ready for you.":"Plan it → Live it → Remember it."}</strong><p>${st==="completed"?"Open the scrapbook and recap whenever you want to revisit it.":st==="active"?"Keep Today open while you move around — the essentials are one tap away.":"Build the itinerary now; Michi transforms with the trip later."}</p></div></div>
     </section>
 
     <section class="section"><div class="section-title"><h3>Travel Shelf</h3><button data-action="new-trip">＋ New trip</button></div>
@@ -834,7 +834,7 @@ function mapHTMLV2() {
   return `<div class="section-title"><h3>🗺️ Map View</h3><button data-action="locate-me-v2">◎ Locate me</button></div>
   <div class="map-legend"><span class="badge">📍 ${withCoords.length} mapped places</span><span class="badge gray">✦ Today's itinerary</span></div>
   <div class="map-shell"><div id="ichigoMap"></div>${!navigator.onLine?`<div class="map-overlay-note">You are offline. Saved place details still work, but map tiles may not load until you're online.</div>`:""}</div>
-  ${noCoords.length?`<section class="section"><div class="section-title"><h3>Places needing coordinates</h3><span class="meta">${noCoords.length}</span></div><div class="list">${noCoords.slice(0,8).map(p=>`<button class="list-row" style="width:100%;text-align:left" data-action="edit-place-v2" data-id="${p.id}"><span class="row-icon">📌</span><span class="row-main"><h4>${esc(p.name)}</h4><p>Add latitude / longitude to pin it on the Ichigo map.</p></span><span>›</span></button>`).join("")}</div></section>`:""}`;
+  ${noCoords.length?`<section class="section"><div class="section-title"><h3>Places needing coordinates</h3><span class="meta">${noCoords.length}</span></div><div class="list">${noCoords.slice(0,8).map(p=>`<button class="list-row" style="width:100%;text-align:left" data-action="edit-place-v2" data-id="${p.id}"><span class="row-icon">📌</span><span class="row-main"><h4>${esc(p.name)}</h4><p>Add latitude / longitude to pin it on the Michi map.</p></span><span>›</span></button>`).join("")}</div></section>`:""}`;
 }
 
 function initIchigoMapV2() {
@@ -877,7 +877,7 @@ function beforeHTML() {
   const due=dueTasks(t);
   return `<div class="section-title"><h3>✅ Before You Go</h3><button data-action="quick-add-type" data-type="task">＋ Task</button></div>
   <div class="btn-row" style="margin-bottom:9px"><button class="btn soft" data-action="pretrip-template-v2">Add starter checklist</button><button class="btn" data-action="enable-reminders-v2">🔔 Reminders</button></div>
-  ${due.length?`<div class="notice-card danger budget-warning"><span class="notice-icon">⏰</span><span><strong>${due.length} task${due.length===1?"":"s"} due or overdue</strong><p>Ichigo checks due tasks whenever the app opens.</p></span></div>`:""}
+  ${due.length?`<div class="notice-card danger budget-warning"><span class="notice-icon">⏰</span><span><strong>${due.length} task${due.length===1?"":"s"} due or overdue</strong><p>Michi checks due tasks whenever the app opens.</p></span></div>`:""}
   <div class="card" style="padding:13px 15px">${sorted.length?sorted.map(i=>`<label class="check-row ${i.done?"done":""}"><input type="checkbox" ${i.done?"checked":""} data-action="toggle-pretrip" data-id="${i.id}"><span><span class="check-name">${esc(i.name)}</span><small style="display:block;color:var(--muted);margin-top:2px">${esc(i.category)} · <span class="priority-${String(i.priority).toLowerCase()}">${esc(i.priority)}</span></small><small class="task-due ${!i.done&&i.dueDate&&i.dueDate<=isoToday()?"task-overdue":""}">${i.dueDate?`Due ${nice(i.dueDate,{month:"short",day:"numeric",year:"numeric"})}`:"No due date"}${i.detail?` · ${esc(i.detail)}`:""}</small></span><button class="tiny-btn" type="button" data-action="edit-task-v2" data-id="${i.id}">Edit</button><button class="tiny-btn danger" type="button" data-action="delete-v2" data-collection="preTrip" data-id="${i.id}">✕</button></label>`).join(""):empty("✅","Nothing here yet","Add a starter checklist or create your own task.","task")}</div>`;
 }
 
@@ -1023,7 +1023,7 @@ function infoHTML() {
 }
 
 function settingsHTML() {
-  return `<div class="card" style="padding:16px"><div class="section-title"><h3>Local data</h3></div><p class="meta">Build 2 keeps structured trip data in localStorage and photos / attachments in IndexedDB. Your app still has no account or server dependency.</p><div class="btn-row" style="margin-top:12px"><button class="btn soft" data-action="export-data">Export JSON data</button><button class="btn" data-action="import-data">Import JSON data</button></div><input id="importFile" type="file" accept="application/json" hidden><p class="inline-help">The JSON backup contains trip records but not the separate IndexedDB photo/attachment blobs.</p><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div class="section-title"><h3>PWA / offline</h3></div><p class="meta">Core screens and local trip information are cached. Online map tiles and live exchange-rate refresh need a connection.</p><button class="btn soft" data-action="install-app">Install Ichigo</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><button class="btn danger full" data-action="reset-demo">Reset all local data</button></div>`;
+  return `<div class="card" style="padding:16px"><div class="section-title"><h3>Local data</h3></div><p class="meta">Build 2 keeps structured trip data in localStorage and photos / attachments in IndexedDB. Your app still has no account or server dependency.</p><div class="btn-row" style="margin-top:12px"><button class="btn soft" data-action="export-data">Export JSON data</button><button class="btn" data-action="import-data">Import JSON data</button></div><input id="importFile" type="file" accept="application/json" hidden><p class="inline-help">The JSON backup contains trip records but not the separate IndexedDB photo/attachment blobs.</p><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div class="section-title"><h3>PWA / offline</h3></div><p class="meta">Core screens and local trip information are cached. Online map tiles and live exchange-rate refresh need a connection.</p><button class="btn soft" data-action="install-app">Install Michi</button><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><button class="btn danger full" data-action="reset-demo">Reset all local data</button></div>`;
 }
 
 function activityFormHTMLV2(item={}) {
@@ -1172,7 +1172,7 @@ async function openLocalFileV2(key) {
 }
 
 async function refreshLiveRateV2() {
-  if(!navigator.onLine){notify("You're offline. Ichigo will use the last saved rate.");return;}
+  if(!navigator.onLine){notify("You're offline. Michi will use the last saved rate.");return;}
   const a=document.querySelector("#convFrom")?.value||trip().converter.from,b=document.querySelector("#convTo")?.value||trip().converter.to;
   if(a===b){notify("Those currencies are already the same.");return;}
   notify("Updating exchange rate…");
@@ -1189,7 +1189,7 @@ async function refreshLiveRateV2() {
 function fillCurrentLocationV2(formId) {
   if(!navigator.geolocation){notify("Location isn't available in this browser.");return;}
   notify("Getting your location…");
-  navigator.geolocation.getCurrentPosition(pos=>{const form=document.getElementById(formId);if(!form)return;const lat=form.querySelector('[name="lat"]'),lng=form.querySelector('[name="lng"]');if(lat)lat.value=pos.coords.latitude.toFixed(6);if(lng)lng.value=pos.coords.longitude.toFixed(6);notify("Coordinates added ✓")},()=>notify("Ichigo couldn't access your location."),{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+  navigator.geolocation.getCurrentPosition(pos=>{const form=document.getElementById(formId);if(!form)return;const lat=form.querySelector('[name="lat"]'),lng=form.querySelector('[name="lng"]');if(lat)lat.value=pos.coords.latitude.toFixed(6);if(lng)lng.value=pos.coords.longitude.toFixed(6);notify("Coordinates added ✓")},()=>notify("Michi couldn't access your location."),{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
 }
 
 async function copyTextV2(text) {
@@ -1232,7 +1232,7 @@ document.addEventListener("click",async e=>{
   if(a==="edit-pack-v2"){const i=trip().packing.find(x=>x.id===el.dataset.id);if(i)openModal("Edit Packing Item",packingFormHTMLV2(i))}
 
   if(a==="pretrip-template-v2"){const existing=new Set(trip().preTrip.map(x=>x.name.toLowerCase()));(window.ICHIGO_DATA?.preTripTemplate||[]).forEach((x,index)=>{if(!existing.has(x.name.toLowerCase()))trip().preTrip.push({id:uuid(),...clone(x),done:false,dueDate:dateOffset(trip().startDate,-Math.max(2,30-index*3))})});save();render();notify("Starter checklist added")}
-  if(a==="enable-reminders-v2"){if(!window.Notification){notify("Notifications aren't supported here. Due tasks will still appear in Ichigo.");return}const result=await Notification.requestPermission();notify(result==="granted"?"Due-task notifications enabled ✓":"Ichigo will keep reminders inside the app.")}
+  if(a==="enable-reminders-v2"){if(!window.Notification){notify("Notifications aren't supported here. Due tasks will still appear in Michi.");return}const result=await Notification.requestPermission();notify(result==="granted"?"Due-task notifications enabled ✓":"Michi will keep reminders inside the app.")}
   if(a==="edit-task-v2"){const i=trip().preTrip.find(x=>x.id===el.dataset.id);if(i)openModal("Edit Task",taskFormHTMLV2(i))}
 
   if(a==="edit-essentials-v2")editEssentialsModalV2()
@@ -1579,13 +1579,13 @@ function searchIndexV3(query) {
 function searchResultsHTMLV3(query) {
   const rows=searchIndexV3(query);
   if (!String(query||"").trim()) return `<div class="search-empty-v3">Search itinerary, places, bookings, expenses, packing, tasks, memories and your Trip Inbox.</div>`;
-  if (!rows.length) return empty("🔎","Nothing found",`No Ichigo items matched “${esc(query)}”.`);
+  if (!rows.length) return empty("🔎","Nothing found",`No Michi items matched “${esc(query)}”.`);
   const icons={activity:"🗓️",place:"📍",booking:"🎟️",expense:"🧾",packing:"🧳",task:"✅",memory:"📸",inbox:"📥"};
   return `<div class="search-results-v3">${rows.map(r=>`<button class="search-result-v3" data-action="search-result-v3" data-kind="${r.kind}" data-id="${r.id}"><span>${icons[r.kind]||"✦"}</span><span><strong>${esc(r.title)}</strong><small>${esc(r.detail||"")}</small></span><span>›</span></button>`).join("")}</div>`;
 }
 
 function openSearchV3(query="") {
-  openModal("Search Ichigo",`<div class="searchbox global-search-v3"><input id="globalSearchV3" value="${esc(query)}" placeholder="Search everything..." autocomplete="off" aria-label="Search all trip data"></div><div id="globalSearchResultsV3" style="margin-top:10px">${searchResultsHTMLV3(query)}</div>`);
+  openModal("Search Michi",`<div class="searchbox global-search-v3"><input id="globalSearchV3" value="${esc(query)}" placeholder="Search everything..." autocomplete="off" aria-label="Search all trip data"></div><div id="globalSearchResultsV3" style="margin-top:10px">${searchResultsHTMLV3(query)}</div>`);
 }
 
 function goToSearchResultV3(kind) {
@@ -1670,7 +1670,7 @@ function mapHTMLV2() {
   const cats=["All",...new Set(t.places.map(x=>x.category))];
   return `<div class="section-title"><h3>🗺️ Map View</h3><button data-action="locate-me-v2">◎ Locate me</button></div>
     <div class="map-filter-grid-v3"><label>SHOW<select id="mapSourceV3"><option value="all" ${f.source==="all"?"selected":""}>Places + itinerary</option><option value="places" ${f.source==="places"?"selected":""}>Saved places</option><option value="itinerary" ${f.source==="itinerary"?"selected":""}>Itinerary only</option></select></label><label>DAY<select id="mapDayV3"><option value="active" ${f.day==="active"?"selected":""}>Active / preview day</option><option value="all" ${f.day==="all"?"selected":""}>All days</option>${allDates(t).map(d=>`<option value="${d}" ${f.day===d?"selected":""}>Day ${dayNo(d,t)} · ${nice(d,{month:"short",day:"numeric"})}</option>`).join("")}</select></label><label>CATEGORY<select id="mapCategoryV3">${cats.map(c=>`<option ${f.category===c?"selected":""}>${esc(c)}</option>`).join("")}</select></label></div>
-    <div class="map-shell"><div id="ichigoMap"></div>${!navigator.onLine?`<div class="map-overlay-note">Saved place details work offline, but map tiles need a connection unless your browser still has them cached.</div>`:""}</div><p class="inline-help">When a specific itinerary day is selected, Ichigo draws a simple line between mapped stops. It is a visual route, not turn-by-turn transit routing.</p>`;
+    <div class="map-shell"><div id="ichigoMap"></div>${!navigator.onLine?`<div class="map-overlay-note">Saved place details work offline, but map tiles need a connection unless your browser still has them cached.</div>`:""}</div><p class="inline-help">When a specific itinerary day is selected, Michi draws a simple line between mapped stops. It is a visual route, not turn-by-turn transit routing.</p>`;
 }
 
 function initIchigoMapV2() {
@@ -1717,7 +1717,7 @@ function renderToday() {
   const focus=ts.current||ts.next;
   main.innerHTML=`<section class="today-header"><p class="eyebrow" style="color:#8b3044!important">${esc(t.cityLabel||t.destination)} · DAY ${dayNo(date,t)}</p><h1>${nice(date,{weekday:"long",month:"long",day:"numeric"})}</h1><p>${ts.isToday?"Your live travel day":"Previewing Today Mode"}</p></section>
     ${focus?`<section class="card today-focus"><div class="badge ${ts.current?"green":""}">${ts.current?"HAPPENING NOW":"NEXT"}</div><div class="countdown">${ts.current?`${Math.max(1,Math.ceil((minutesFromTime(focus.time)+Number(focus.duration||60)-ts.nowMin)))} min left`:ts.isToday?countdownLabelV3(focus,ts.nowMin):"Up next"}</div><h3>${ICON[focus.type]||"📍"} ${esc(focus.title)}</h3><p>${esc(focus.place||focus.address||"")} · ${focus.flexible?"Anytime":esc(formatTimeV3(focus.time))}</p><div class="activity-actions"><button class="tiny-btn primary" data-action="arrived-v3" data-id="${focus.id}">📍 I'm here</button><button class="tiny-btn" data-action="complete-activity-v3" data-id="${focus.id}">✓ Done</button><a class="tiny-btn" href="${esc(preferredMapUrlV3(focus))}" target="_blank" rel="noopener">Map</a>${bookings.length?`<button class="tiny-btn" data-action="open-bookings-v3">🎟 Booking</button>`:""}</div></section>`:empty("🌸","A free day","Nothing is scheduled for this day yet.","activity")}
-    ${ts.overdue.length?`<section class="notice-card danger" style="margin-top:10px"><span class="notice-icon">⏰</span><span><strong>${ts.overdue.length} unfinished item${ts.overdue.length===1?"":"s"} passed their planned time.</strong><p>You can mark them done or keep going — Ichigo won't change the itinerary automatically.</p></span></section>`:""}
+    ${ts.overdue.length?`<section class="notice-card danger" style="margin-top:10px"><span class="notice-icon">⏰</span><span><strong>${ts.overdue.length} unfinished item${ts.overdue.length===1?"":"s"} passed their planned time.</strong><p>You can mark them done or keep going — Michi won't change the itinerary automatically.</p></span></section>`:""}
     <section class="card" style="padding:16px;margin-top:12px"><div class="section-title"><h3>Today’s timeline</h3><span class="meta">${ts.items.filter(x=>x.completed).length}/${ts.items.length} done</span></div><div class="today-timeline-v3">${ts.items.length?ts.items.map(i=>`<article class="today-line-v3 ${i.completed?"done":""} ${ts.current?.id===i.id?"current":""}"><span>${i.flexible?"Anytime":esc(formatTimeV3(i.time))}</span><div><strong>${esc(i.title)}</strong><small>${esc(i.place||"")}</small></div><button class="tiny-btn" data-action="complete-activity-v3" data-id="${i.id}">${i.completed?"Undo":"Done"}</button></article>`).join(""):"<p class='meta'>No activities yet.</p>"}</div></section>
     <section class="card" style="padding:16px;margin-top:12px;background:linear-gradient(145deg,#fff,#fff0f3)"><div class="section-title"><h3>Today’s spending</h3><span>${money(daily)} / ${money(t.dailyBudget)}</span></div><div class="progress"><span style="width:${Math.min(100,t.dailyBudget?daily/t.dailyBudget*100:0)}%"></span></div></section>
     ${bookings.length?`<section class="section"><div class="section-title"><h3>🎟 Today’s bookings</h3><button data-action="open-bookings-v3">View all</button></div><div class="list">${bookingRows(bookings.slice(0,3))}</div></section>`:""}
@@ -1762,11 +1762,11 @@ function settingsHTML() {
   return `<div class="settings-stack-v3">
     <section class="card settings-card-v3"><div class="section-title"><h3>⚙️ App preferences</h3></div><form id="settingsFormV3" class="form-grid"><div class="form-row two"><div><label>YOUR NAME</label><input name="travelerName" value="${esc(s.travelerName)}"></div><div><label>HOME COUNTRY</label><input name="homeCountry" value="${esc(s.homeCountry)}"></div></div><div class="form-row two"><div><label>HOME CURRENCY</label><select name="homeCurrency">${currencyOptions(s.homeCurrency)}</select></div><div><label>DEFAULT TRIP CURRENCY</label><select name="defaultTripCurrency">${currencyOptions(s.defaultTripCurrency)}</select></div></div><div class="form-row two"><div><label>DATE FORMAT</label><select name="dateFormat">${(window.ICHIGO_DATA?.dateFormats||[]).map(x=>`<option value="${x.id}" ${s.dateFormat===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div><div><label>TIME FORMAT</label><select name="timeFormat">${(window.ICHIGO_DATA?.timeFormats||[]).map(x=>`<option value="${x.id}" ${s.timeFormat===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div></div><div class="form-row two"><div><label>PREFERRED MAP</label><select name="mapApp">${(window.ICHIGO_DATA?.mapApps||[]).map(x=>`<option value="${x.id}" ${s.mapApp===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div><div><label>APP THEME</label><select name="theme">${(window.ICHIGO_DATA?.themePresets||[]).map(x=>`<option value="${x.id}" ${s.theme===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div></div><button class="btn primary">Save preferences</button></form></section>
 
-    <section class="card settings-card-v3"><div class="section-title"><h3>🔔 Reminders</h3><span class="meta">while Ichigo is open</span></div><p class="meta">Web PWAs can show reminders while the app is running. Closed-app scheduling on iPhone requires push/native support, which is intentionally not faked in Build 3.</p><div class="form-row two"><div><label>ACTIVITY LEAD</label><select id="activityLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.activityLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div><div><label>BOOKING LEAD</label><select id="bookingLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.bookingLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div></div><div class="btn-row" style="margin-top:9px"><button class="btn soft" data-action="enable-notifications-v3">Enable reminders</button><button class="btn" data-action="save-reminder-settings-v3">Save reminder timing</button></div><p class="inline-help">Permission: <strong>${window.Notification?.permission||"not supported"}</strong></p></section>
+    <section class="card settings-card-v3"><div class="section-title"><h3>🔔 Reminders</h3><span class="meta">while Michi is open</span></div><p class="meta">Web PWAs can show reminders while the app is running. Closed-app scheduling on iPhone requires push/native support, which is intentionally not faked in Build 3.</p><div class="form-row two"><div><label>ACTIVITY LEAD</label><select id="activityLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.activityLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div><div><label>BOOKING LEAD</label><select id="bookingLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.bookingLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div></div><div class="btn-row" style="margin-top:9px"><button class="btn soft" data-action="enable-notifications-v3">Enable reminders</button><button class="btn" data-action="save-reminder-settings-v3">Save reminder timing</button></div><p class="inline-help">Permission: <strong>${window.Notification?.permission||"not supported"}</strong></p></section>
 
     <section class="card settings-card-v3"><div class="section-title"><h3>💾 Full backup & restore</h3></div><p class="meta">Build 3 backups include trip data plus IndexedDB photos, receipts, covers and attachments.</p><div class="btn-row"><button class="btn soft" data-action="export-full-backup-v3">Export full backup</button><button class="btn" data-action="import-full-backup-v3">Restore backup</button></div><input id="importFullBackupV3" type="file" accept="application/json" hidden><div class="storage-line-v3"><span>Local files</span><strong id="dbStatsV3">Checking…</strong></div><div class="storage-line-v3"><span>Browser storage</span><strong id="storageEstimateV3">Checking…</strong></div></section>
 
-    <section class="card settings-card-v3"><div class="section-title"><h3>⬆️ App updates</h3></div><p class="meta">Ichigo checks the service worker for a newer GitHub Pages build and shows an update banner when one is ready.</p><div class="btn-row"><button class="btn soft" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Ichigo</button></div></section>
+    <section class="card settings-card-v3"><div class="section-title"><h3>⬆️ App updates</h3></div><p class="meta">Michi checks the service worker for a newer GitHub Pages build and shows an update banner when one is ready.</p><div class="btn-row"><button class="btn soft" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Michi</button></div></section>
 
     <section class="card settings-card-v3"><div class="section-title"><h3>🧪 Testing & debug</h3></div><div class="diagnostic-grid-v3"><span>App</span><strong>${APP_VERSION_V3}</strong><span>Schema</span><strong>v${APP_SCHEMA_VERSION_V3}</strong><span>Cache</span><strong>${CACHE_VERSION_V3}</strong><span>Network</span><strong>${navigator.onLine?"Online":"Offline"}</strong><span>Notifications</span><strong>${window.Notification?.permission||"N/A"}</strong></div><div class="btn-row wrap-v3" style="margin-top:10px"><button class="btn soft" data-action="run-selftest-v3">Run self-test</button><button class="btn" data-action="copy-diagnostics-v3">Copy diagnostics</button><button class="btn" data-action="clear-caches-v3">Clear app caches</button></div></section>
 
@@ -1784,12 +1784,12 @@ function reminderLogV3(){try{return JSON.parse(localStorage.getItem(REMINDER_LOG
 function rememberReminderV3(key){const log=reminderLogV3();log[key]=Date.now();const cutoff=Date.now()-14*86400000;Object.keys(log).forEach(k=>{if(log[k]<cutoff)delete log[k]});localStorage.setItem(REMINDER_LOG_V3,JSON.stringify(log))}
 function minutesToV3(date,time){if(!date||!time)return null;const [h,m]=time.split(":").map(Number),d=parseDate(date);d.setHours(h,m,0,0);return Math.round((d-Date.now())/60000)}
 function sendReminderV3(key,title,body){if(reminderLogV3()[key])return;rememberReminderV3(key);if(window.Notification?.permission==="granted"){try{new Notification(title,{body,icon:"./icons/icon-192.png",tag:key})}catch{notify(body)}}else notify(body)}
-function checkRemindersV3(){const s=state.settings?.notifications;if(!s?.enabled)return;const t=trip();t.itinerary.filter(x=>!x.completed&&x.date&&x.time).forEach(x=>{const mins=minutesToV3(x.date,x.time),lead=Number(x.reminderLead??s.activityLead);if(mins!=null&&mins<=lead&&mins>=0)sendReminderV3(`${t.id}:activity:${x.id}:${x.date}`,"Ichigo · Activity soon",`${x.title} starts ${mins<=1?"now":`in ${mins} minutes`}.`) });t.bookings.filter(x=>x.date&&x.time).forEach(x=>{const mins=minutesToV3(x.date,x.time),lead=Number(x.reminderLead??s.bookingLead);if(mins!=null&&mins<=lead&&mins>=0)sendReminderV3(`${t.id}:booking:${x.id}:${x.date}`,"Ichigo · Booking soon",`${x.title} is ${mins<=1?"now":`in ${mins} minutes`}.`) });if(s.taskDue)t.preTrip.filter(x=>!x.done&&x.dueDate===isoToday()).forEach(x=>sendReminderV3(`${t.id}:task:${x.id}:${x.dueDate}`,"Ichigo · Task due",x.name))}
+function checkRemindersV3(){const s=state.settings?.notifications;if(!s?.enabled)return;const t=trip();t.itinerary.filter(x=>!x.completed&&x.date&&x.time).forEach(x=>{const mins=minutesToV3(x.date,x.time),lead=Number(x.reminderLead??s.activityLead);if(mins!=null&&mins<=lead&&mins>=0)sendReminderV3(`${t.id}:activity:${x.id}:${x.date}`,"Michi · Activity soon",`${x.title} starts ${mins<=1?"now":`in ${mins} minutes`}.`) });t.bookings.filter(x=>x.date&&x.time).forEach(x=>{const mins=minutesToV3(x.date,x.time),lead=Number(x.reminderLead??s.bookingLead);if(mins!=null&&mins<=lead&&mins>=0)sendReminderV3(`${t.id}:booking:${x.id}:${x.date}`,"Michi · Booking soon",`${x.title} is ${mins<=1?"now":`in ${mins} minutes`}.`) });if(s.taskDue)t.preTrip.filter(x=>!x.done&&x.dueDate===isoToday()).forEach(x=>sendReminderV3(`${t.id}:task:${x.id}:${x.dueDate}`,"Michi · Task due",x.name))}
 function startReminderEngineV3(){if(reminderTimerV3)return;checkRemindersV3();reminderTimerV3=setInterval(checkRemindersV3,30000)}
 
 /* ---------- Full backup ---------- */
 async function exportFullBackupV3(){try{notify("Preparing backup…");const files=await IchigoDB.exportAll();const payload={format:"ichigo-full-backup",backupVersion:1,appVersion:APP_VERSION_V3,schemaVersion:APP_SCHEMA_VERSION_V3,exportedAt:new Date().toISOString(),state,files};download(`ichigo-full-backup-${isoToday()}.json`,JSON.stringify(payload));notify(`Backup ready · ${files.length} local file${files.length===1?"":"s"}`)}catch(err){console.error(err);notify("Backup couldn't be created.")}}
-async function restoreFullBackupV3(file){try{const payload=JSON.parse(await file.text());if(payload.format!=="ichigo-full-backup"||!payload.state)throw Error("Invalid Ichigo backup");if(!confirm("Restore this backup? Current local Ichigo data and stored images will be replaced."))return;state=payload.state;ensureStateV3();state.trips=(state.trips||[]).map(ensureTripV3);await IchigoDB.importAll(payload.files||[],{clearFirst:true});save();render();notify("Ichigo backup restored ✓")}catch(err){console.error(err);alert("That file is not a valid Ichigo full backup.")}}
+async function restoreFullBackupV3(file){try{const payload=JSON.parse(await file.text());if(payload.format!=="ichigo-full-backup"||!payload.state)throw Error("Invalid Michi backup");if(!confirm("Restore this backup? Current local Michi data and stored images will be replaced."))return;state=payload.state;ensureStateV3();state.trips=(state.trips||[]).map(ensureTripV3);await IchigoDB.importAll(payload.files||[],{clearFirst:true});save();render();notify("Michi backup restored ✓")}catch(err){console.error(err);alert("That file is not a valid Michi full backup.")}}
 
 async function updateStorageDiagnosticsV3(){if(state.currentView!=="trip"||state.tripView!=="settings")return;try{const s=await IchigoDB.stats(),el=document.querySelector("#dbStatsV3");if(el)el.textContent=`${s.count} files · ${formatBytesV3(s.bytes)}`}catch{}try{const est=await navigator.storage?.estimate?.(),el=document.querySelector("#storageEstimateV3");if(el&&est)el.textContent=`${formatBytesV3(est.usage||0)} used${est.quota?` / ${formatBytesV3(est.quota)}`:""}`}catch{}}
 function formatBytesV3(n){n=Number(n||0);if(n<1024)return`${n} B`;if(n<1048576)return`${(n/1024).toFixed(1)} KB`;if(n<1073741824)return`${(n/1048576).toFixed(1)} MB`;return`${(n/1073741824).toFixed(1)} GB`}
@@ -1808,17 +1808,17 @@ async function setupServiceWorkerUpdatesV3(){if(!("serviceWorker" in navigator))
 
 /* ---------- Onboarding ---------- */
 const ONBOARDING_V3=[
-  ["✦","Welcome to Ichigo","Your trip changes with you: plan it, use Today Mode while traveling, then keep it as a scrapbook."],
+  ["✦","Welcome to Michi","Your trip changes with you: plan it, use Today Mode while traveling, then keep it as a scrapbook."],
   ["📥","Start messy on purpose","Throw links, screenshots and random ideas into Trip Inbox. Organize them later."],
   ["🌸","Today Mode is your travel screen","Current plan, next stop, spending, map and essentials stay close while you're moving."],
   ["📚","Trips become keepsakes","Afterward, Memories, Scrapbook, Trip Recap and your Travel Shelf keep old trips useful."]
 ];
 function onboardingHTMLV3(step){const [emoji,title,text]=ONBOARDING_V3[step];return `<div class="onboarding-v3"><div class="onboarding-emoji-v3">${emoji}</div><p class="eyebrow">STEP ${step+1} OF ${ONBOARDING_V3.length}</p><h2>${title}</h2><p>${text}</p><div class="onboarding-dots-v3">${ONBOARDING_V3.map((_,i)=>`<i class="${i===step?"active":""}"></i>`).join("")}</div><div class="btn-row"><button class="btn" data-action="onboarding-skip-v3">Skip</button><button class="btn primary" data-action="onboarding-next-v3" data-step="${step}">${step===ONBOARDING_V3.length-1?"Start planning":"Next"}</button></div></div>`}
-function maybeShowOnboardingV3(){if(onboardingShownV3||state.onboarding?.completed||modalRoot.firstElementChild)return;onboardingShownV3=true;setTimeout(()=>openModal("Welcome to Ichigo",onboardingHTMLV3(Number(state.onboarding?.step||0))),120)}
+function maybeShowOnboardingV3(){if(onboardingShownV3||state.onboarding?.completed||modalRoot.firstElementChild)return;onboardingShownV3=true;setTimeout(()=>openModal("Welcome to Michi",onboardingHTMLV3(Number(state.onboarding?.step||0))),120)}
 
 /* ---------- Debug ---------- */
 async function diagnosticsV3(){const fileStats=await IchigoDB.stats().catch(()=>({count:-1,bytes:0})),cacheKeys=await caches.keys().catch(()=>[]),reg=await Promise.resolve(navigator.serviceWorker?.getRegistration?.()).catch(()=>null),storage=await Promise.resolve(navigator.storage?.estimate?.()).catch(()=>null);return{appVersion:APP_VERSION_V3,schemaVersion:state.schemaVersion,tripCount:state.trips.length,currentTrip:trip().title,online:navigator.onLine,notificationPermission:window.Notification?.permission||"unsupported",serviceWorker:reg?{active:!!reg.active,waiting:!!reg.waiting,installing:!!reg.installing}:"none",caches:cacheKeys,files:fileStats,storage,platform:navigator.userAgent,generatedAt:new Date().toISOString()}}
-async function runSelfTestV3(){const tests=[];const add=(name,ok,detail="")=>tests.push({name,ok,detail});try{add("Structured state",Array.isArray(state.trips)&&!!trip().id,`${state.trips.length} trip(s)`)}catch(e){add("Structured state",false,e.message)}try{await IchigoDB.open();add("IndexedDB",true,`DB v${IchigoDB.DB_VERSION}`)}catch(e){add("IndexedDB",false,e.message)}try{const reg=await navigator.serviceWorker?.getRegistration?.();add("Service worker",!!reg,reg?.active?"Active":"Not active yet")}catch(e){add("Service worker",false,e.message)}try{const response=await fetch("./manifest.json",{cache:"no-store"});add("Manifest",response.ok,`HTTP ${response.status}`)}catch(e){add("Manifest",false,"Unavailable offline or fetch failed")}add("Current trip arrays",[trip().itinerary,trip().places,trip().bookings,trip().expenses,trip().memories,trip().inbox].every(Array.isArray),"Core collections readable");openModal("Ichigo Self-Test",`<div class="selftest-v3">${tests.map(x=>`<div class="selftest-row-v3 ${x.ok?"pass":"fail"}"><span>${x.ok?"✓":"!"}</span><div><strong>${esc(x.name)}</strong><small>${esc(x.detail)}</small></div></div>`).join("")}</div>`) }
+async function runSelfTestV3(){const tests=[];const add=(name,ok,detail="")=>tests.push({name,ok,detail});try{add("Structured state",Array.isArray(state.trips)&&!!trip().id,`${state.trips.length} trip(s)`)}catch(e){add("Structured state",false,e.message)}try{await IchigoDB.open();add("IndexedDB",true,`DB v${IchigoDB.DB_VERSION}`)}catch(e){add("IndexedDB",false,e.message)}try{const reg=await navigator.serviceWorker?.getRegistration?.();add("Service worker",!!reg,reg?.active?"Active":"Not active yet")}catch(e){add("Service worker",false,e.message)}try{const response=await fetch("./manifest.json",{cache:"no-store"});add("Manifest",response.ok,`HTTP ${response.status}`)}catch(e){add("Manifest",false,"Unavailable offline or fetch failed")}add("Current trip arrays",[trip().itinerary,trip().places,trip().bookings,trip().expenses,trip().memories,trip().inbox].every(Array.isArray),"Core collections readable");openModal("Michi Self-Test",`<div class="selftest-v3">${tests.map(x=>`<div class="selftest-row-v3 ${x.ok?"pass":"fail"}"><span>${x.ok?"✓":"!"}</span><div><strong>${esc(x.name)}</strong><small>${esc(x.detail)}</small></div></div>`).join("")}</div>`) }
 
 /* ---------- Launch shortcuts ---------- */
 function applyLaunchShortcut(){const shortcut=location.hash.replace("#","").toLowerCase();if(shortcut==="today")state.currentView="today";if(shortcut==="expense"){state.currentView="spend";state.spendView="expenses";setTimeout(()=>quick("expense"),120)}if(shortcut==="inbox"){state.currentView="plan";state.planView="inbox"}if(shortcut==="search")state.launchActionV3="search";if(shortcut)history.replaceState(null,"",location.pathname+location.search)}
@@ -1855,13 +1855,13 @@ document.addEventListener("click",async event=>{
   if(a==="save-reminder-settings-v3"){state.settings.notifications.activityLead=Number(document.querySelector("#activityLeadV3")?.value||15);state.settings.notifications.bookingLead=Number(document.querySelector("#bookingLeadV3")?.value||60);save();notify("Reminder timing saved")}
   if(a==="export-full-backup-v3")await exportFullBackupV3();
   if(a==="import-full-backup-v3")document.querySelector("#importFullBackupV3")?.click();
-  if(a==="force-update-check-v3"){const reg=await navigator.serviceWorker?.getRegistration?.();if(reg){await reg.update();if(reg.waiting)showUpdateBannerV3(reg);else notify("Ichigo checked for updates.")}else notify("No service worker registration found.")}
-  if(a==="apply-update-v3"){const reg=pendingSWRegistrationV3||await navigator.serviceWorker?.getRegistration?.();if(reg?.waiting){reloadForUpdateV3=false;reg.waiting.postMessage({type:"SKIP_WAITING"});notify("Updating Ichigo…")}}
+  if(a==="force-update-check-v3"){const reg=await navigator.serviceWorker?.getRegistration?.();if(reg){await reg.update();if(reg.waiting)showUpdateBannerV3(reg);else notify("Michi checked for updates.")}else notify("No service worker registration found.")}
+  if(a==="apply-update-v3"){const reg=pendingSWRegistrationV3||await navigator.serviceWorker?.getRegistration?.();if(reg?.waiting){reloadForUpdateV3=false;reg.waiting.postMessage({type:"SKIP_WAITING"});notify("Updating Michi…")}}
   if(a==="run-selftest-v3")await runSelfTestV3();
   if(a==="copy-diagnostics-v3"){await copyTextV2(JSON.stringify(await diagnosticsV3(),null,2));notify("Diagnostics copied ✓")}
-  if(a==="clear-caches-v3"){if(confirm("Clear Ichigo's service-worker caches? Your saved trip data and photos will not be deleted.")){for(const k of await caches.keys())if(k.startsWith("ichigo-"))await caches.delete(k);notify("App caches cleared. Reload to fetch fresh files.")}}
+  if(a==="clear-caches-v3"){if(confirm("Clear Michi's service-worker caches? Your saved trip data and photos will not be deleted.")){for(const k of await caches.keys())if(k.startsWith("ichigo-"))await caches.delete(k);notify("App caches cleared. Reload to fetch fresh files.")}}
   if(a==="onboarding-skip-v3"){state.onboarding.completed=true;save();closeModal()}
-  if(a==="onboarding-next-v3"){const step=Number(el.dataset.step||0);if(step>=ONBOARDING_V3.length-1){state.onboarding.completed=true;state.onboarding.step=0;save();closeModal();notify("Welcome to Ichigo ✦")}else{state.onboarding.step=step+1;save();modalRoot.querySelector("#modalBody").innerHTML=onboardingHTMLV3(step+1)}}
+  if(a==="onboarding-next-v3"){const step=Number(el.dataset.step||0);if(step>=ONBOARDING_V3.length-1){state.onboarding.completed=true;state.onboarding.step=0;save();closeModal();notify("Welcome to Michi ✦")}else{state.onboarding.step=step+1;save();modalRoot.querySelector("#modalBody").innerHTML=onboardingHTMLV3(step+1)}}
 });
 
 document.addEventListener("input",event=>{if(event.target.id==="globalSearchV3"){const results=document.querySelector("#globalSearchResultsV3");if(results)results.innerHTML=searchResultsHTMLV3(event.target.value)}});
@@ -1888,7 +1888,7 @@ function beforeHTML() {
   const due=dueTasks(t);
   return `<div class="section-title"><h3>✅ Before You Go</h3><button data-action="quick-add-type" data-type="task">＋ Task</button></div>
   <div class="btn-row" style="margin-bottom:9px"><button class="btn soft" data-action="pretrip-template-v2">Add starter checklist</button><button class="btn" data-action="enable-notifications-v3">🔔 Reminders</button></div>
-  ${due.length?`<div class="notice-card danger budget-warning"><span class="notice-icon">⏰</span><span><strong>${due.length} task${due.length===1?"":"s"} due or overdue</strong><p>Build 3 can also remind you while Ichigo is open when notifications are enabled.</p></span></div>`:""}
+  ${due.length?`<div class="notice-card danger budget-warning"><span class="notice-icon">⏰</span><span><strong>${due.length} task${due.length===1?"":"s"} due or overdue</strong><p>Build 3 can also remind you while Michi is open when notifications are enabled.</p></span></div>`:""}
   <div class="card" style="padding:13px 15px">${sorted.length?sorted.map(i=>`<label class="check-row ${i.done?"done":""}"><input type="checkbox" ${i.done?"checked":""} data-action="toggle-pretrip" data-id="${i.id}"><span><span class="check-name">${esc(i.name)}</span><small style="display:block;color:var(--muted);margin-top:2px">${esc(i.category)} · <span class="priority-${String(i.priority).toLowerCase()}">${esc(i.priority)}</span></small><small class="task-due ${!i.done&&i.dueDate&&i.dueDate<=isoToday()?"task-overdue":""}">${i.dueDate?`Due ${nice(i.dueDate)}`:"No due date"}${i.detail?` · ${esc(i.detail)}`:""}</small></span><button class="tiny-btn" type="button" data-action="edit-task-v2" data-id="${i.id}">Edit</button><button class="tiny-btn danger" type="button" data-action="delete-v2" data-collection="preTrip" data-id="${i.id}">✕</button></label>`).join(""):empty("✅","Nothing here yet","Add a starter checklist or create your own task.","task")}</div>`;
 }
 
@@ -2092,7 +2092,7 @@ function healthCheckV4(t=trip()) {
   const add=(severity,icon,title,detail,view,sub)=>items.push({severity,icon,title,detail,view,sub});
 
   const emptyDays=allDates(t).filter(d=>!activitiesOn(d,t).length);
-  if (emptyDays.length) add("low","🗓️",`${emptyDays.length} itinerary day${emptyDays.length===1?" is":"s are"} empty`,"That can be intentional, but Ichigo is flagging it so you can review.", "plan","itinerary");
+  if (emptyDays.length) add("low","🗓️",`${emptyDays.length} itinerary day${emptyDays.length===1?" is":"s are"} empty`,"That can be intentional, but Michi is flagging it so you can review.", "plan","itinerary");
 
   const scheduleWarnings=allDates(t).flatMap(d=>scheduleWarningsV4(d,t).map(x=>({...x,date:d})));
   if (scheduleWarnings.length) add(
@@ -2278,7 +2278,7 @@ function saveTripTemplateModalV4() {
   openModal("Save Trip as Template",`<form id="saveTripTemplateFormV4" class="form-grid">
     <div class="form-row"><label>TEMPLATE NAME</label><input name="label" required value="${esc(trip().title)} template"></div>
     <div class="form-row"><label>DESCRIPTION</label><input name="description" value="Based on ${esc(trip().title)}"></div>
-    <p class="meta">Ichigo saves your packing list, Before You Go checklist, category budgets and the structure of the first planned day. Personal expenses, bookings, photos and document files are not copied.</p>
+    <p class="meta">Michi saves your packing list, Before You Go checklist, category budgets and the structure of the first planned day. Personal expenses, bookings, photos and document files are not copied.</p>
     <button class="btn primary">Save reusable template</button>
   </form>`);
 }
@@ -2404,14 +2404,14 @@ function essentialsHTMLV2() {
   <div class="notice-card success"><span class="notice-icon">✈️</span><span><strong>Designed for offline access</strong><p>Hotel, insurance, contacts, your document vault and saved phrases stay on this device.</p></span></div>
   <div class="essentials-grid" style="margin-top:10px"><div class="card essential-card"><h3>🏨 Stay</h3><div class="essential-value"><strong>${esc(e.hotelName||"No hotel saved")}</strong>${e.hotelAddress?`\n${esc(e.hotelAddress)}`:""}${e.hotelPhone?`\n☎ ${esc(e.hotelPhone)}`:""}</div></div><div class="card essential-card"><h3>🛡️ Insurance</h3><div class="essential-value"><strong>${esc(e.insuranceProvider||"No insurance saved")}</strong>${e.insurancePolicy?`\nPolicy: ${esc(e.insurancePolicy)}`:""}${e.insurancePhone?`\n☎ ${esc(e.insurancePhone)}`:""}</div></div><div class="card essential-card"><h3>🩺 Medical / safety notes</h3><div class="essential-value">${esc(e.medicalNotes||"No notes saved")}</div></div><div class="card essential-card"><h3>🚃 Transport notes</h3><div class="essential-value">${esc(e.transitNotes||"No notes saved")}</div></div></div>
   <section class="section"><div class="section-title"><h3>Emergency contacts</h3><button data-action="add-contact-v3">＋ Contact</button></div><div class="card" style="padding:8px 13px">${e.contacts.length?e.contacts.map(c=>`<div class="contact-row"><div class="row-icon">☎️</div><div class="row-main"><h4>${esc(c.name)}</h4><p>${esc(c.phone)} ${c.note?`· ${esc(c.note)}`:""}</p></div><button class="tiny-btn" data-action="edit-contact-v3" data-id="${c.id}">Edit</button><button class="tiny-btn danger" data-action="delete-essential-v2" data-kind="contacts" data-id="${c.id}">✕</button></div>`).join(""):`<div class="empty"><p>Add family, insurance or important contacts.</p></div>`}</div></section>
-  <section class="section"><div class="section-title"><div><h3>🔐 Document Vault</h3><p class="meta">Local only · available offline</p></div><button data-action="add-document-v3">＋ Document</button></div><div class="document-vault-v4">${docs.length?docs.map(d=>`<article class="card document-card-v4 ${d.important?"important":""}">${d.fileKey?`<button class="document-file-v4" data-action="open-file-v2" data-file-key="${d.fileKey}" data-file-kind="${String(d.fileName||"").toLowerCase().endsWith(".pdf")?"file":"image"}">${String(d.fileName||"").toLowerCase().endsWith(".pdf")?"📄":"🖼️"}</button>`:`<div class="document-file-v4">📄</div>`}<div class="row-main"><div class="badge gray">${esc(d.category)}</div><h4>${d.important?"⭐ ":""}${esc(d.name)}</h4><p>${esc(d.reference||"No reference note")}</p>${d.expiryDate?`<small class="${d.expiryDate<=trip().endDate?"vault-expiry-warning-v4":""}">Expires ${nice(d.expiryDate)}</small>`:""}${d.fileName?`<small>Offline file: ${esc(d.fileName)}</small>`:""}</div><div class="document-actions-v4"><button class="tiny-btn" data-action="edit-document-v3" data-id="${d.id}">Edit</button><button class="tiny-btn danger" data-action="delete-document-v4" data-id="${d.id}">Delete</button></div></article>`).join(""):empty("🔐","Your vault is empty","Add tickets, insurance files, hotel PDFs or other travel references you want offline.")}</div><p class="inline-help">For privacy, store only documents you are comfortable keeping locally on this device. Ichigo does not upload them anywhere.</p></section>
+  <section class="section"><div class="section-title"><div><h3>🔐 Document Vault</h3><p class="meta">Local only · available offline</p></div><button data-action="add-document-v3">＋ Document</button></div><div class="document-vault-v4">${docs.length?docs.map(d=>`<article class="card document-card-v4 ${d.important?"important":""}">${d.fileKey?`<button class="document-file-v4" data-action="open-file-v2" data-file-key="${d.fileKey}" data-file-kind="${String(d.fileName||"").toLowerCase().endsWith(".pdf")?"file":"image"}">${String(d.fileName||"").toLowerCase().endsWith(".pdf")?"📄":"🖼️"}</button>`:`<div class="document-file-v4">📄</div>`}<div class="row-main"><div class="badge gray">${esc(d.category)}</div><h4>${d.important?"⭐ ":""}${esc(d.name)}</h4><p>${esc(d.reference||"No reference note")}</p>${d.expiryDate?`<small class="${d.expiryDate<=trip().endDate?"vault-expiry-warning-v4":""}">Expires ${nice(d.expiryDate)}</small>`:""}${d.fileName?`<small>Offline file: ${esc(d.fileName)}</small>`:""}</div><div class="document-actions-v4"><button class="tiny-btn" data-action="edit-document-v3" data-id="${d.id}">Edit</button><button class="tiny-btn danger" data-action="delete-document-v4" data-id="${d.id}">Delete</button></div></article>`).join(""):empty("🔐","Your vault is empty","Add tickets, insurance files, hotel PDFs or other travel references you want offline.")}</div><p class="inline-help">For privacy, store only documents you are comfortable keeping locally on this device. Michi does not upload them anywhere.</p></section>
   <section class="section"><div class="section-title"><h3>Useful phrases</h3><button data-action="add-phrase-v3">＋ Phrase</button></div><div class="list">${e.phrases.length?e.phrases.map(p=>`<div class="phrase-card"><button style="all:unset;cursor:pointer;display:block;width:100%" data-action="copy-text-v2" data-text="${esc(p.jp)}"><div class="jp">${esc(p.jp)}</div><div class="romaji">${esc(p.romaji||"")}</div><div class="translation">${esc(p.en||"")}</div></button><div class="activity-actions"><button class="tiny-btn" data-action="edit-phrase-v3" data-id="${p.id}">Edit</button><button class="tiny-btn danger" data-action="delete-essential-v2" data-kind="phrases" data-id="${p.id}">Delete</button></div></div>`).join(""):empty("💬","No phrases saved","Add useful phrases for offline access.")}</div></section>`;
 }
 
 /* ---------- Health + Stats ---------- */
 function healthHTMLV4() {
   const h=healthCheckV4(), grouped={high:h.items.filter(x=>x.severity==="high"),medium:h.items.filter(x=>x.severity==="medium"),low:h.items.filter(x=>x.severity==="low")};
-  return `<div class="health-hero-v4"><div class="health-ring-v4 large" style="--health:${h.score}%"><strong>${h.score}</strong><small>/100</small></div><div><p class="eyebrow">TRIP HEALTH</p><h2>${h.score>=90?"Looking sweet ✨":h.score>=70?"Almost ready 🌸":"A few things need attention"}</h2><p>${h.items.length?`${h.items.length} item${h.items.length===1?"":"s"} worth reviewing before or during the trip.`:"Ichigo didn't find any planning issues right now."}</p></div></div>
+  return `<div class="health-hero-v4"><div class="health-ring-v4 large" style="--health:${h.score}%"><strong>${h.score}</strong><small>/100</small></div><div><p class="eyebrow">TRIP HEALTH</p><h2>${h.score>=90?"Looking sweet ✨":h.score>=70?"Almost ready 🌸":"A few things need attention"}</h2><p>${h.items.length?`${h.items.length} item${h.items.length===1?"":"s"} worth reviewing before or during the trip.`:"Michi didn't find any planning issues right now."}</p></div></div>
     ${["high","medium","low"].map(level=>grouped[level].length?`<section class="section"><div class="section-title"><h3>${level==="high"?"Needs attention":level==="medium"?"Worth checking":"Nice to review"}</h3><span class="badge ${level==="high"?"danger-badge-v4":"gray"}">${grouped[level].length}</span></div><div class="list">${grouped[level].map(x=>`<button class="health-item-v4 ${level}" data-action="health-jump-v4" data-view="${x.view}" data-sub="${x.sub}"><span>${x.icon}</span><div><strong>${esc(x.title)}</strong><p>${esc(x.detail)}</p></div><b>›</b></button>`).join("")}</div></section>`:"").join("")}`;
 }
 
@@ -2466,9 +2466,9 @@ function settingsHTML() {
   return `<div class="settings-stack-v3">
     <section class="card settings-card-v3"><div class="section-title"><h3>⚙️ App preferences</h3></div><form id="settingsFormV3" class="form-grid"><div class="form-row two"><div><label>YOUR NAME</label><input name="travelerName" value="${esc(s.travelerName)}"></div><div><label>HOME COUNTRY</label><input name="homeCountry" value="${esc(s.homeCountry)}"></div></div><div class="form-row two"><div><label>HOME CURRENCY</label><select name="homeCurrency">${currencyOptions(s.homeCurrency)}</select></div><div><label>DEFAULT TRIP CURRENCY</label><select name="defaultTripCurrency">${currencyOptions(s.defaultTripCurrency)}</select></div></div><div class="form-row two"><div><label>DATE FORMAT</label><select name="dateFormat">${(window.ICHIGO_DATA?.dateFormats||[]).map(x=>`<option value="${x.id}" ${s.dateFormat===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div><div><label>TIME FORMAT</label><select name="timeFormat">${(window.ICHIGO_DATA?.timeFormats||[]).map(x=>`<option value="${x.id}" ${s.timeFormat===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div></div><div class="form-row two"><div><label>PREFERRED MAP</label><select name="mapApp">${(window.ICHIGO_DATA?.mapApps||[]).map(x=>`<option value="${x.id}" ${s.mapApp===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div><div><label>APP THEME</label><select name="theme">${(window.ICHIGO_DATA?.themePresets||[]).map(x=>`<option value="${x.id}" ${s.theme===x.id?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div></div><button class="btn primary">Save preferences</button></form></section>
     <section class="card settings-card-v3"><div class="section-title"><h3>✦ Personal templates</h3></div><p class="meta">${state.customTripTemplates.length} custom trip template${state.customTripTemplates.length===1?"":"s"} · ${state.dayTemplates.length} saved day template${state.dayTemplates.length===1?"":"s"}</p><div class="btn-row wrap-v3"><button class="btn soft" data-action="trip-templates-v4">Browse trip templates</button><button class="btn" data-action="save-current-template-v4">Save current trip</button></div></section>
-    <section class="card settings-card-v3"><div class="section-title"><h3>🔔 Reminders</h3><span class="meta">while Ichigo is open</span></div><p class="meta">Web PWAs can show reminders while the app is running. Closed-app scheduling on iPhone still requires push/native infrastructure.</p><div class="form-row two"><div><label>ACTIVITY LEAD</label><select id="activityLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.activityLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div><div><label>BOOKING LEAD</label><select id="bookingLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.bookingLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div></div><div class="btn-row" style="margin-top:9px"><button class="btn soft" data-action="enable-notifications-v3">Enable reminders</button><button class="btn" data-action="save-reminder-settings-v3">Save reminder timing</button></div></section>
+    <section class="card settings-card-v3"><div class="section-title"><h3>🔔 Reminders</h3><span class="meta">while Michi is open</span></div><p class="meta">Web PWAs can show reminders while the app is running. Closed-app scheduling on iPhone still requires push/native infrastructure.</p><div class="form-row two"><div><label>ACTIVITY LEAD</label><select id="activityLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.activityLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div><div><label>BOOKING LEAD</label><select id="bookingLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.bookingLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div></div><div class="btn-row" style="margin-top:9px"><button class="btn soft" data-action="enable-notifications-v3">Enable reminders</button><button class="btn" data-action="save-reminder-settings-v3">Save reminder timing</button></div></section>
     <section class="card settings-card-v3"><div class="section-title"><h3>💾 Backup & restore</h3></div><p class="meta">Full backup includes all trips and local media. Per-trip export lives under Trip Info.</p><div class="btn-row"><button class="btn soft" data-action="export-full-backup-v3">Export full backup</button><button class="btn" data-action="import-full-backup-v3">Restore backup</button></div><input id="importFullBackupV3" type="file" accept="application/json" hidden><div class="storage-line-v3"><span>Local files</span><strong id="dbStatsV3">Checking…</strong></div><div class="storage-line-v3"><span>Browser storage</span><strong id="storageEstimateV3">Checking…</strong></div></section>
-    <section class="card settings-card-v3"><div class="section-title"><h3>⬆️ App updates</h3></div><p class="meta">Ichigo checks GitHub Pages for a newer cached build.</p><div class="btn-row"><button class="btn soft" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Ichigo</button></div></section>
+    <section class="card settings-card-v3"><div class="section-title"><h3>⬆️ App updates</h3></div><p class="meta">Michi checks GitHub Pages for a newer cached build.</p><div class="btn-row"><button class="btn soft" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Michi</button></div></section>
     <section class="card settings-card-v3"><div class="section-title"><h3>🧪 Testing & debug</h3></div><div class="diagnostic-grid-v3"><span>App</span><strong>${APP_VERSION_V4}</strong><span>Schema</span><strong>v${APP_SCHEMA_VERSION_V4}</strong><span>Cache</span><strong>${CACHE_VERSION_V4}</strong><span>Network</span><strong>${navigator.onLine?"Online":"Offline"}</strong></div><div class="btn-row wrap-v3" style="margin-top:10px"><button class="btn soft" data-action="run-selftest-v3">Run self-test</button><button class="btn" data-action="copy-diagnostics-v3">Copy diagnostics</button><button class="btn" data-action="clear-caches-v3">Clear app caches</button></div></section>
     <section class="card settings-card-v3"><button class="btn danger full" data-action="reset-demo">Reset all local data</button></section>
   </div>`;
@@ -2507,7 +2507,7 @@ async function importTripV4(file) {
     imported.archived=false;
     await IchigoDB.importAll(payload.files||[],{clearFirst:false});
     state.trips.push(imported);state.currentTripId=imported.id;state.currentView="home";save();render();notify("Trip imported ✓");
-  }catch(err){console.error(err);alert("That file is not a valid Ichigo trip export.")}
+  }catch(err){console.error(err);alert("That file is not a valid Michi trip export.")}
 }
 
 /* Keep full backup metadata current. */
@@ -2522,11 +2522,11 @@ async function exportFullBackupV3(){
 async function restoreFullBackupV3(file){
   try{
     const payload=JSON.parse(await file.text());
-    if(payload.format!=="ichigo-full-backup"||!payload.state)throw Error("Invalid Ichigo backup");
-    if(!confirm("Restore this backup? Current local Ichigo data and stored images will be replaced."))return;
+    if(payload.format!=="ichigo-full-backup"||!payload.state)throw Error("Invalid Michi backup");
+    if(!confirm("Restore this backup? Current local Michi data and stored images will be replaced."))return;
     state=payload.state;ensureStateV4();state.trips=(state.trips||[]).map(ensureTripV4);
-    await IchigoDB.importAll(payload.files||[],{clearFirst:true});save();render();notify("Ichigo backup restored ✓");
-  }catch(err){console.error(err);alert("That file is not a valid Ichigo full backup.")}
+    await IchigoDB.importAll(payload.files||[],{clearFirst:true});save();render();notify("Michi backup restored ✓");
+  }catch(err){console.error(err);alert("That file is not a valid Michi full backup.")}
 }
 
 async function diagnosticsV3(){
@@ -2801,7 +2801,7 @@ save = function saveV7() {
 
     if (raw.length > 4_000_000 && !storageWarningShownV7) {
       storageWarningShownV7 = true;
-      setTimeout(()=>notify("Ichigo's structured data is getting large. Consider exporting a backup and keeping photos in the Storage Manager."),300);
+      setTimeout(()=>notify("Michi's structured data is getting large. Consider exporting a backup and keeping photos in the Storage Manager."),300);
     }
 
     clearTimeout(saveStatusTimerV7);
@@ -2809,7 +2809,7 @@ save = function saveV7() {
   } catch (error) {
     logErrorV7(error,"save");
     setSaveStatusV7("Save failed","error");
-    setTimeout(()=>notify("Ichigo couldn't save this change. Export a backup before making more edits."),50);
+    setTimeout(()=>notify("Michi couldn't save this change. Export a backup before making more edits."),50);
   }
 };
 
@@ -2865,7 +2865,7 @@ render = function renderV7() {
     afterRenderV3();
     afterRenderV7();
   } catch (error) {
-    console.error("Ichigo render recovery",error);
+    console.error("Michi render recovery",error);
     logErrorV7(error,"render");
     main.innerHTML=recoveryHTMLV7(error);
     updateOnline();
@@ -3120,7 +3120,7 @@ function planMyDayModalV7(date=state.activeItineraryDate||activeDate()) {
   if(!places.length){notify("All your unvisited saved places are already scheduled.");return}
   const pref=state.planMyDay||{};
   openModal("✦ Plan My Day",`<form id="planMyDayFormV7" class="form-grid">
-    <div class="notice-card"><span class="notice-icon">✦</span><span><strong>Local smart planning</strong><p>Ichigo uses your saved coordinates, priorities, expected visit lengths and a rough straight-line travel estimate. Always verify real transit times.</p></span></div>
+    <div class="notice-card"><span class="notice-icon">✦</span><span><strong>Local smart planning</strong><p>Michi uses your saved coordinates, priorities, expected visit lengths and a rough straight-line travel estimate. Always verify real transit times.</p></span></div>
     <div class="form-row two"><div><label>DAY</label><select name="date">${allDates().map(d=>`<option value="${d}" ${d===date?"selected":""}>Day ${dayNo(d)} · ${nice(d)}</option>`).join("")}</select></div><div><label>START</label><input name="startTime" type="time" value="${pref.startTime||"09:00"}"></div></div>
     <div class="form-row"><label>PACE</label><select name="pace">${(window.ICHIGO_DATA?.planningPacesV7||[]).map(x=>`<option value="${x.id}" ${x.id===(pref.pace||"comfortable")?"selected":""}>${esc(x.label)}</option>`).join("")}</select></div>
     <label class="check-inline-v3"><input name="replaceDay" type="checkbox"> Replace activities already on this day</label>
@@ -3166,7 +3166,7 @@ function smartPlannerHTMLV7() {
   const t=trip(),date=state.activeItineraryDate||activeDate(t),unscheduled=unscheduledPlacesV7(t),must=unscheduled.filter(p=>p.priority==="Must go");
   const mapped=t.itinerary.filter(a=>a.lat&&a.lng).length;
   return `<div class="planner-hero-v7">
-    <div><p class="eyebrow">SMART PERSONAL PLANNER</p><h2>Build a sweeter day ✦</h2><p>Uses only the information saved in Ichigo. No AI API, account or paid service required.</p></div>
+    <div><p class="eyebrow">SMART PERSONAL PLANNER</p><h2>Build a sweeter day ✦</h2><p>Uses only the information saved in Michi. No AI API, account or paid service required.</p></div>
     <button class="btn primary" data-action="open-plan-day-v7" data-date="${date}">✦ Plan My Day</button>
   </div>
   <div class="planner-summary-grid-v7">
@@ -3177,7 +3177,7 @@ function smartPlannerHTMLV7() {
   </div>
   <section class="section"><div class="section-title"><h3>❤️ Must-Go planner</h3><button data-action="open-plan-day-v7" data-date="${date}">Plan</button></div>${must.length?`<div class="smart-place-tray-v7">${must.map(p=>smartPlaceMiniV7(p,date)).join("")}</div>`:empty("❤️","Must-Go list is scheduled","Your current Must-Go places are already represented in the itinerary.")}</section>
   <section class="section"><div class="section-title"><h3>📍 Unscheduled places</h3><span class="meta">${unscheduled.length}</span></div>${unscheduled.length?`<div class="smart-place-tray-v7">${unscheduled.map(p=>smartPlaceMiniV7(p,date)).join("")}</div>`:empty("🌸","Nothing waiting","All saved unvisited places have an itinerary slot.")}</section>
-  <section class="section"><div class="card smart-how-v7"><h3>How local route ordering works</h3><p>When coordinates exist, Ichigo uses a nearest-next-place order and estimates travel using straight-line distance plus a small buffer. It does <strong>not</strong> know train schedules, traffic, station entrances or actual walking routes, so treat it as a planning helper—not navigation.</p></div></section>`;
+  <section class="section"><div class="card smart-how-v7"><h3>How local route ordering works</h3><p>When coordinates exist, Michi uses a nearest-next-place order and estimates travel using straight-line distance plus a small buffer. It does <strong>not</strong> know train schedules, traffic, station entrances or actual walking routes, so treat it as a planning helper—not navigation.</p></div></section>`;
 }
 
 function smartPlaceMiniV7(p,date) {
@@ -3499,7 +3499,7 @@ function visitedMapHTMLV7() {
 
 function initStoryMapV7() {
   const el=document.querySelector("#storyMapV7");if(!el)return;
-  if(typeof L==="undefined"){el.innerHTML=empty("🗺️","Map library unavailable","Reconnect once to load the map library. Your saved locations are still in Ichigo.");return}
+  if(typeof L==="undefined"){el.innerHTML=empty("🗺️","Map library unavailable","Reconnect once to load the map library. Your saved locations are still in Michi.");return}
   try{if(storyMapV7){storyMapV7.remove();storyMapV7=null}}catch{}
   const t=trip(),places=t.places.filter(p=>p.visited&&p.lat&&p.lng),mem=t.memories.filter(m=>m.lat&&m.lng),all=[...places,...mem];
   const fallback=all[0]?[all[0].lat,all[0].lng]:[35.6762,139.6503];
@@ -3637,7 +3637,7 @@ function offlineCenterHTMLV7() {
       <div class="card offline-conditional-v7"><span>🗺️</span><div><strong>Map backgrounds</strong><p>Coordinates stay local. OpenStreetMap tiles are cached opportunistically as you view them, but full areas are not guaranteed offline.</p></div></div>
       <div class="card offline-conditional-v7"><span>💱</span><div><strong>Live exchange rates</strong><p>Refreshing rates needs internet; your last saved/fallback rates remain usable.</p></div></div>
     </div>
-    <div class="card offline-actions-v7"><h3>Prepare before you leave</h3><p>Open Ichigo online once, visit the screens you care about, and prepare the core shell. For maps, open the actual areas/zoom levels you expect to use.</p><div class="btn-row wrap-v3"><button class="btn primary" data-action="prepare-offline-v7">Prepare core offline</button><button class="btn soft" data-action="request-persistence-v7">Protect local storage</button><button class="btn" data-action="clear-map-cache-v7">Clear runtime map cache</button></div>${prepared?`<small>Last prepared: ${new Date(prepared).toLocaleString()}</small>`:""}</div>`;
+    <div class="card offline-actions-v7"><h3>Prepare before you leave</h3><p>Open Michi online once, visit the screens you care about, and prepare the core shell. For maps, open the actual areas/zoom levels you expect to use.</p><div class="btn-row wrap-v3"><button class="btn primary" data-action="prepare-offline-v7">Prepare core offline</button><button class="btn soft" data-action="request-persistence-v7">Protect local storage</button><button class="btn" data-action="clear-map-cache-v7">Clear runtime map cache</button></div>${prepared?`<small>Last prepared: ${new Date(prepared).toLocaleString()}</small>`:""}</div>`;
 }
 
 async function prepareOfflineV7() {
@@ -3652,7 +3652,7 @@ async function prepareOfflineV7() {
 /* ---------- Release readiness ---------- */
 function releaseHTMLV7() {
   return `<div class="section-title"><h3>🧪 Personal Release Check</h3><button data-action="run-release-check-v7">Run again</button></div>
-    <div class="notice-card"><span class="notice-icon">✦</span><span><strong>Personal-use readiness</strong><p>This checks local storage, IndexedDB, PWA registration, files and trip structure. It does not test Supabase because Ichigo does not use it yet.</p></span></div>
+    <div class="notice-card"><span class="notice-icon">✦</span><span><strong>Personal-use readiness</strong><p>This checks local storage, IndexedDB, PWA registration, files and trip structure. It does not test Supabase because Michi does not use it yet.</p></span></div>
     <div id="releaseCheckBodyV7" class="release-check-v7"><div class="storage-loading-v7">Running checks…</div></div>`;
 }
 
@@ -3708,7 +3708,7 @@ async function runReleaseSelfTestV7(showToast=true) {
 /* ---------- App tour ---------- */
 function openTourV7() {
   state.onboarding.build7Seen=true;save();
-  openModal("What's in Ichigo now",`<div class="tour-v7">
+  openModal("What's in Michi now",`<div class="tour-v7">
     <div><span>✦</span><h3>Smart Planner</h3><p>Select saved places and build a locally suggested day. Route estimates are helpers, not live transit.</p></div>
     <div><span>📝</span><h3>Notes + Inbox</h3><p>Scratch ideas quickly, then convert them into real trip items later.</p></div>
     <div><span>📖</span><h3>Your trip becomes a story</h3><p>Timeline, Food Diary, Highlights, Story Map and Scrapbook fill themselves from your data.</p></div>
@@ -3747,7 +3747,7 @@ settingsHTML = function settingsHTMLV7() {
     ${aboutIchigoCardV74()}
     <section class="card settings-card-v3 about-version-card-v74">
       <div class="section-title"><h3>🌸 About & updates</h3><span class="badge gray">v${esc(ICHIGO_CURRENT_VERSION)}</span></div>
-      <p class="meta">Ichigo will show an update banner when a newer GitHub Pages build is waiting to be installed.</p>
+      <p class="meta">Michi will show an update banner when a newer GitHub Pages build is waiting to be installed.</p>
       <div class="btn-row wrap-v3"><button class="btn soft" data-action="show-whats-new-v74">What’s New</button><button class="btn" data-action="force-update-check-v3">Check for update</button></div>
     </section>
     <section class="card settings-card-v3"><div class="section-title"><h3>✦ Personal tools</h3></div><div class="btn-row wrap-v3"><button class="btn soft" data-action="open-tour-v7">App tour</button><button class="btn" data-action="customize-dashboard-v7">Dashboard</button><button class="btn" data-action="open-offline-v7">Offline Center</button><button class="btn" data-action="open-storage-v7">Storage Manager</button><button class="btn" data-action="open-release-v7">Release Check</button></div></section>`;
@@ -3822,7 +3822,7 @@ document.addEventListener("click",async event=>{
 
   if(a==="delete-local-file-v7"){
     const key=el.dataset.key,name=el.dataset.name||"file";
-    if(confirm(`Delete ${name} from local storage? Any Ichigo reference to this file will also be cleared.`)){
+    if(confirm(`Delete ${name} from local storage? Any Michi reference to this file will also be cleared.`)){
       await IchigoDB.remove(key);clearFileKeyReferencesV7(key);save();renderStorageManagerV7();notify("Local file deleted");
     }
   }
@@ -3950,7 +3950,7 @@ function renderFreshStartV71() {
   main.innerHTML = `
     <section class="fresh-start-v71">
       <div class="fresh-berry-v71">
-        <img src="./icons/icon-192-v41.png" alt="Ichigo">
+        <img src="./icons/icon-192-v42.png" alt="Michi">
       </div>
       <p class="eyebrow">WELCOME TO ICHIGO</p>
       <h1>Plan sweet little adventures.</h1>
@@ -3958,7 +3958,7 @@ function renderFreshStartV71() {
 
       <div class="fresh-actions-v71 fresh-actions-v73">
         <button class="btn primary" data-action="new-trip">＋ Create your first trip</button>
-        <button class="btn soft" data-action="explore-ichigo-v73">Explore Ichigo →</button>
+        <button class="btn soft" data-action="explore-ichigo-v73">Explore Michi →</button>
       </div>
 
       <div class="fresh-features-v71">
@@ -4020,7 +4020,7 @@ renderTogether = function renderTogetherFreshV71() {
         : empty("💗","No group picks yet",travelers.length<2?"Add at least two travelers, then vote on saved places.":"Vote on saved places to discover shared favorites.")}</div>
     </section>
 
-    <section class="section">${travelers.length?splitHTML():`<div class="notice-card"><span class="notice-icon">💸</span><span><strong>Shared expenses are optional.</strong><p>Add travelers first if you want Ichigo to calculate local expense splits.</p></span></div>`}</section>`;
+    <section class="section">${travelers.length?splitHTML():`<div class="notice-card"><span class="notice-icon">💸</span><span><strong>Shared expenses are optional.</strong><p>Add travelers first if you want Michi to calculate local expense splits.</p></span></div>`}</section>`;
 };
 
 /* Traveler form uses a friendly neutral face only as a visual fallback. */
@@ -4073,11 +4073,11 @@ function renderExploreHomeV73() {
   main.innerHTML = `
     <section class="explore-home-v73">
       <div class="explore-welcome-v73">
-        <img src="./icons/icon-192-v41.png" alt="">
+        <img src="./icons/icon-192-v42.png" alt="">
         <div>
           <p class="eyebrow">EXPLORE ICHIGO</p>
           <h1>Take a look around. ✦</h1>
-          <p>Nothing here is sample trip data. These are just previews of what Ichigo can do once you create your own trip.</p>
+          <p>Nothing here is sample trip data. These are just previews of what Michi can do once you create your own trip.</p>
         </div>
       </div>
 
@@ -4099,7 +4099,7 @@ function renderExploreHomeV73() {
       </section>
 
       ${aboutIchigoCardV74()}
-      <div class="explore-note-v73">Explore mode does not create a trip or add any content to your Ichigo.</div>
+      <div class="explore-note-v73">Explore mode does not create a trip or add any content to your Michi.</div>
     </section>`;
 }
 
@@ -4108,7 +4108,7 @@ function renderExplorePlanV73() {
     ${exploreCTAHeaderV73("PLAN","Plan your trip","This is where your trip takes shape—from loose ideas to a day-by-day itinerary.")}
     <div class="explore-section-list-v73">
       ${exploreFeatureCardV73("🗓️","Itinerary","Build days with fixed times or flexible Morning, Afternoon, Evening and Anytime activities.")}
-      ${exploreFeatureCardV73("✦","Smart Planner","Choose saved places and let Ichigo suggest a local route order using the information you entered.")}
+      ${exploreFeatureCardV73("✦","Smart Planner","Choose saved places and let Michi suggest a local route order using the information you entered.")}
       ${exploreFeatureCardV73("📍","Places","Save restaurants, cafés, shops and attractions with priorities, coordinates, hours and expected cost.")}
       ${exploreFeatureCardV73("📥","Inbox & Scratchpad","Capture random recommendations first and organize them later.")}
       ${exploreFeatureCardV73("🎟️","Bookings","Keep flights, hotels, reservations, confirmations and offline attachments together.")}
@@ -4154,7 +4154,7 @@ function renderExploreSpendV73() {
 
 function renderExploreTogetherV73() {
   main.innerHTML = `
-    ${exploreCTAHeaderV73("TOGETHER","Optional shared planning tools","You decide who to add. Ichigo starts with zero travelers.")}
+    ${exploreCTAHeaderV73("TOGETHER","Optional shared planning tools","You decide who to add. Michi starts with zero travelers.")}
     <div class="explore-empty-card-v73">
       <span>👥</span>
       <h2>No travelers by default</h2>
@@ -4169,7 +4169,7 @@ function renderExploreTogetherV73() {
 
 function renderExploreTripV73() {
   main.innerHTML = `
-    ${exploreCTAHeaderV73("TRIP","The trip becomes your story","After planning and traveling, Ichigo turns the same information into something worth keeping.")}
+    ${exploreCTAHeaderV73("TRIP","The trip becomes your story","After planning and traveling, Michi turns the same information into something worth keeping.")}
     <div class="explore-grid-v73">
       ${exploreFeatureCardV73("📸","Journal","Photos, tiny notes, locations and favorite moments.")}
       ${exploreFeatureCardV73("🕰️","Timeline","Itinerary + expenses + memories combined chronologically.")}
@@ -4257,11 +4257,11 @@ document.addEventListener("click",event=>{
    ICHIGO BUILD 7.4 — ABOUT ICHIGO + SAKURA-STYLE UPDATES
    ===================================================================== */
 
-const ICHIGO_ABOUT_V74 = `Ichigo (いちご) means “strawberry.” Bright, sweet, and playful, Ichigo is made for collecting all the little plans and memories that make a trip something to look forward to.`;
+const ICHIGO_ABOUT_V74 = `Michi (いちご) means “strawberry.” Bright, sweet, and playful, Michi is made for collecting all the little plans and memories that make a trip something to look forward to.`;
 
 const ICHIGO_WHATS_NEW_V74 = {
   version: "8.0.0",
-  title: "What’s New in Ichigo",
+  title: "What’s New in Michi",
   items: [
     "A cleaner hamburger navigation now keeps the bottom bar focused on the essentials.",
     "Added Travel Lists, Day Board, Reservation Board, Checklist Center and Time Zone Board.",
@@ -4273,10 +4273,10 @@ const ICHIGO_WHATS_NEW_V74 = {
 
 function aboutIchigoCardV74(compact=false) {
   return `<section class="about-ichigo-v74 ${compact?"compact":""}">
-    <img src="./icons/icon-192-v41.png" alt="">
+    <img src="./icons/icon-192-v42.png" alt="">
     <div>
       <p class="eyebrow">ABOUT ICHIGO</p>
-      <h3>Why Ichigo? ✦</h3>
+      <h3>Why Michi? ✦</h3>
       <p>${esc(ICHIGO_ABOUT_V74)}</p>
     </div>
   </section>`;
@@ -4284,7 +4284,7 @@ function aboutIchigoCardV74(compact=false) {
 
 function whatsNewHTMLV74() {
   return `<div class="whats-new-v74">
-    <div class="whats-new-icon-v74"><img src="./icons/icon-192-v41.png" alt=""></div>
+    <div class="whats-new-icon-v74"><img src="./icons/icon-192-v42.png" alt=""></div>
     <p class="eyebrow">ICHIGO UPDATED</p>
     <h2>${esc(ICHIGO_WHATS_NEW_V74.title)}</h2>
     <p class="whats-new-version-v74">${esc(ICHIGO_CURRENT_VERSION)}</p>
@@ -4303,7 +4303,7 @@ function showWhatsNewV74(force=false) {
   }
   localStorage.setItem("ichigo-last-seen-app-version",ICHIGO_CURRENT_VERSION);
   if(modalRoot?.firstElementChild)return;
-  openModal("Ichigo updated",whatsNewHTMLV74());
+  openModal("Michi updated",whatsNewHTMLV74());
 }
 
 
@@ -4443,7 +4443,7 @@ const TRIP_META_V8 = {
   info:["ℹ️","Trip Info","Dates, destination, cover and trip settings."],
   offline:["📴","Offline Center","See what will still work without internet."],
   storage:["💾","Storage Manager","Review photos, tickets and local files."],
-  settings:["⚙️","Settings","Personalize Ichigo and manage your data."]
+  settings:["⚙️","Settings","Personalize Michi and manage your data."]
 };
 
 let drawerOpenV8 = false;
@@ -4507,7 +4507,7 @@ function migrateAllTripsV8(persist=false) {
     state.migrations.push({
       version:8,
       at:Date.now(),
-      note:"Ichigo 8 navigation, custom travel lists, day board, reservation board, checklist center and time zones"
+      note:"Michi 8 navigation, custom travel lists, day board, reservation board, checklist center and time zones"
     });
   }
   state.schemaVersion=APP_SCHEMA_VERSION_V8;
@@ -4533,7 +4533,7 @@ save=function saveV8(){
 
     if(raw.length>4_000_000 && !storageWarningShownV7){
       storageWarningShownV7=true;
-      setTimeout(()=>notify("Ichigo's local trip data is getting large. Export a backup and review Storage Manager when convenient."),300);
+      setTimeout(()=>notify("Michi's local trip data is getting large. Export a backup and review Storage Manager when convenient."),300);
     }
 
     clearTimeout(saveStatusTimerV7);
@@ -4541,12 +4541,12 @@ save=function saveV8(){
   }catch(error){
     logErrorV7(error,"save-v8");
     setSaveStatusV7("Save failed","error");
-    setTimeout(()=>notify("Ichigo couldn't save this change. Export a backup before making more edits."),50);
+    setTimeout(()=>notify("Michi couldn't save this change. Export a backup before making more edits."),50);
   }
 };
 
 
-/* A user who explored Ichigo already understands the app shell.
+/* A user who explored Michi already understands the app shell.
    Skip the older walkthrough only in that case; true first-time creators
    who did not explore can still receive onboarding. */
 const createTripFromTemplateBeforeV8 = createTripFromTemplateV4;
@@ -4564,7 +4564,7 @@ createTripFromTemplateV4 = function createTripFromTemplateOnboardingV8(templateI
   return created;
 };
 
-/* Ichigo 8 neutral first-trip form. */
+/* Michi 8 neutral first-trip form. */
 const tripTemplateFormBeforeV8 = tripTemplateFormV4;
 tripTemplateFormV4 = function tripTemplateFormNeutralV8(templateId="blank") {
   if(templateId!=="blank") return tripTemplateFormBeforeV8(templateId);
@@ -4625,7 +4625,7 @@ function renderBottomNavV8(){
     const item=BOTTOM_TAB_OPTIONS_V8.find(x=>x.id===id);
     const active=state.currentView===id;
     const icon=id==="today"
-      ? `<span class="berry-orb"><img src="./icons/icon-192-v41.png" alt=""></span>`
+      ? `<span class="berry-orb"><img src="./icons/icon-192-v42.png" alt=""></span>`
       : `<span>${item.icon}</span>`;
     return `<button class="nav-item ${id==="today"?"today-nav":""} ${active?"active":""}" data-nav="${id}" aria-label="${esc(item.label)}" ${active?'aria-current="page"':""}>${icon}<small>${esc(item.label)}</small></button>`;
   }).join("");
@@ -4645,16 +4645,16 @@ function drawerHTMLV8(){
   const hasTrip=!!(state.trips||[]).length;
   if(!hasTrip){
     return `<div class="drawer-backdrop-v8 ${drawerOpenV8?"open":""}" data-action="close-drawer-v8"></div>
-      <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Ichigo menu">
+      <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Michi menu">
         <div class="drawer-head-v8">
-          <img src="./icons/icon-192-v41.png" alt="">
-          <div><strong>ichigo</strong><small>Plan sweet little adventures.</small></div>
+          <img src="./icons/icon-192-v42.png" alt="">
+          <div><strong>michi</strong><small>Plan sweet little adventures.</small></div>
           <button class="icon-btn" data-action="close-drawer-v8" aria-label="Close menu">✕</button>
         </div>
         <div class="drawer-empty-v8">
-          <p>Explore Ichigo freely, or create your first trip whenever you're ready.</p>
+          <p>Explore Michi freely, or create your first trip whenever you're ready.</p>
           <button class="btn primary full" data-action="new-trip">＋ Create Trip</button>
-          <button class="btn soft full" data-action="explore-ichigo-v73">Explore Ichigo</button>
+          <button class="btn soft full" data-action="explore-ichigo-v73">Explore Michi</button>
           <div class="drawer-preview-nav-v8">
             ${[["home","⌂","Home"],["plan","▣","Plan"],["today","✦","Today"],["spend","◉","Spend"],["together","👥","Together"],["trip","▤","Trip"]].map(([view,icon,label])=>`<button data-action="navigate-explore-v8" data-view="${view}"><span>${icon}</span>${label}</button>`).join("")}
           </div>
@@ -4672,10 +4672,10 @@ function drawerHTMLV8(){
   const groups=[...new Set(ROUTES_V8.map(x=>x.group))];
 
   return `<div class="drawer-backdrop-v8 ${drawerOpenV8?"open":""}" data-action="close-drawer-v8"></div>
-    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Ichigo menu">
+    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Michi menu">
       <div class="drawer-head-v8">
-        <img src="./icons/icon-192-v41.png" alt="">
-        <div><strong>ichigo</strong><small>${esc(trip().title)}</small></div>
+        <img src="./icons/icon-192-v42.png" alt="">
+        <div><strong>michi</strong><small>${esc(trip().title)}</small></div>
         <button class="icon-btn" data-action="close-drawer-v8" aria-label="Close menu">✕</button>
       </div>
       <div class="drawer-utilities-v8">
@@ -5011,22 +5011,22 @@ settingsHTML=function settingsHTMLV8(){
     <section class="card settings-card-v3"><div class="section-title"><h3>Navigation & appearance</h3></div>${navSettingsHTMLV8()}</section>
 
     <section class="card settings-card-v3">
-      <div class="section-title"><h3>Reminders</h3><span class="meta">while Ichigo is open</span></div>
+      <div class="section-title"><h3>Reminders</h3><span class="meta">while Michi is open</span></div>
       <div class="form-row two"><div><label>ACTIVITY LEAD</label><select id="activityLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.activityLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div><div><label>BOOKING LEAD</label><select id="bookingLeadV3">${(window.ICHIGO_DATA?.reminderLeadOptions||[]).map(x=>`<option value="${x}" ${Number(n.bookingLead)===x?"selected":""}>${x} min</option>`).join("")}</select></div></div>
       <div class="btn-row wrap-v3"><button class="btn soft" data-action="enable-notifications-v3">Enable reminders</button><button class="btn" data-action="save-reminder-settings-v3">Save timing</button></div>
     </section>
 
     <section class="card settings-card-v3">
       <div class="section-title"><h3>Data & privacy</h3></div>
-      <p class="meta">Your personal Ichigo data remains local unless you export it yourself.</p>
+      <p class="meta">Your personal Michi data remains local unless you export it yourself.</p>
       <div class="btn-row wrap-v3"><button class="btn soft" data-action="export-full-backup-v3">Export full backup</button><button class="btn" data-action="import-full-backup-v3">Restore backup</button><button class="btn" data-action="navigate-route-v8" data-route="storage">Storage</button><button class="btn" data-action="navigate-route-v8" data-route="offline">Offline Center</button></div>
       <input id="importFullBackupV3" type="file" accept="application/json" hidden>
     </section>
 
     ${aboutIchigoCardV74()}
-    <section class="card settings-card-v3"><div class="section-title"><h3>About & updates</h3><span class="badge gray">v${ICHIGO_CURRENT_VERSION}</span></div><div class="btn-row wrap-v3"><button class="btn soft" data-action="show-whats-new-v74">What’s New</button><button class="btn" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Ichigo</button></div></section>
+    <section class="card settings-card-v3"><div class="section-title"><h3>About & updates</h3><span class="badge gray">v${ICHIGO_CURRENT_VERSION}</span></div><div class="btn-row wrap-v3"><button class="btn soft" data-action="show-whats-new-v74">What’s New</button><button class="btn" data-action="force-update-check-v3">Check for update</button><button class="btn" data-action="install-app">Install Michi</button></div></section>
 
-    <details class="card advanced-settings-v8"><summary>Advanced</summary><div class="advanced-settings-body-v8"><p class="meta">Recovery and diagnostics are kept here so normal travel screens stay clean.</p><div class="btn-row wrap-v3"><button class="btn" data-action="run-selftest-v3">Run diagnostics</button><button class="btn" data-action="copy-diagnostics-v3">Copy diagnostics</button><button class="btn" data-action="clear-caches-v3">Clear app caches</button></div><button class="btn danger full" data-action="reset-demo">Erase all local Ichigo data</button></div></details>
+    <details class="card advanced-settings-v8"><summary>Advanced</summary><div class="advanced-settings-body-v8"><p class="meta">Recovery and diagnostics are kept here so normal travel screens stay clean.</p><div class="btn-row wrap-v3"><button class="btn" data-action="run-selftest-v3">Run diagnostics</button><button class="btn" data-action="copy-diagnostics-v3">Copy diagnostics</button><button class="btn" data-action="clear-caches-v3">Clear app caches</button></div><button class="btn danger full" data-action="reset-demo">Erase all local Michi data</button></div></details>
   </div>`;
 };
 
@@ -5187,7 +5187,7 @@ const APP_SCHEMA_VERSION_V9 = 9;
 const CACHE_VERSION_V9 = "ichigo-build9-playful-v1";
 
 Object.assign(PLAN_META_V8,{
-  jar:["🎲","Adventure Jar","Let Ichigo pick from the places and ideas you already saved."],
+  jar:["🎲","Adventure Jar","Let Michi pick from the places and ideas you already saved."],
   backup:["☔","Backup Plans","Keep rainy-day, low-energy and just-in-case alternatives ready."],
   neighborhoods:["🧺","Neighborhood Bundles","Group saved places into little area-based mini days."]
 });
@@ -5310,7 +5310,7 @@ save=function saveV9(){
   }catch(error){
     logErrorV7(error,"save-v9");
     setSaveStatusV7("Save failed","error");
-    setTimeout(()=>notify("Ichigo couldn't save this change. Export a backup before making more edits."),50);
+    setTimeout(()=>notify("Michi couldn't save this change. Export a backup before making more edits."),50);
   }
 };
 
@@ -5359,16 +5359,16 @@ drawerHTMLV8=function drawerHTMLPlayfulV9(){
   ];
 
   return `<div class="drawer-backdrop-v8 ${drawerOpenV8?"open":""}" data-action="close-drawer-v8"></div>
-    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Ichigo menu">
+    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Michi menu">
       <div class="drawer-head-v8">
-        <img src="./icons/icon-192-v41.png" alt="">
-        <div><strong>ichigo</strong><small>Explore before your first trip</small></div>
+        <img src="./icons/icon-192-v42.png" alt="">
+        <div><strong>michi</strong><small>Explore before your first trip</small></div>
         <button class="icon-btn" data-action="close-drawer-v8" aria-label="Close menu">✕</button>
       </div>
       <div class="drawer-scroll-v8">
         <section class="drawer-welcome-v9">
           <p class="eyebrow">START ANY WAY YOU LIKE</p>
-          <h2>There’s more inside Ichigo. ✦</h2>
+          <h2>There’s more inside Michi. ✦</h2>
           <p>Browse the app first, or create an empty trip when you're ready.</p>
           <button class="btn primary full" data-action="new-trip">＋ Create Trip</button>
         </section>
@@ -5399,14 +5399,14 @@ function adventureJarHTMLV9(){
   return `<div class="section-title"><h3>Adventure Jar</h3><button data-action="add-jar-v9">＋ Idea</button></div>
     <section class="jar-hero-v9">
       <div class="jar-berry-v9">🎲</div>
-      <div><p class="eyebrow">CAN'T DECIDE?</p><h2>Let Ichigo pick.</h2><p>Add places, snacks, neighborhoods, tiny activities or whatever sounds fun. The jar only uses things you added.</p></div>
+      <div><p class="eyebrow">CAN'T DECIDE?</p><h2>Let Michi pick.</h2><p>Add places, snacks, neighborhoods, tiny activities or whatever sounds fun. The jar only uses things you added.</p></div>
       <button class="btn primary" data-action="pick-jar-v9" ${pool.length?"":"disabled"}>Pick for me</button>
     </section>
     ${t.adventureJar.length?`<div class="jar-grid-v9">${t.adventureJar.map(x=>`<article class="card jar-card-v9 ${x.done?"done":""}">
       <span>${esc(x.emoji||"🎲")}</span><div><strong>${esc(x.title)}</strong><p>${esc(x.note||"")}</p></div>
       <button class="tiny-btn" data-action="toggle-jar-done-v9" data-id="${x.id}">${x.done?"Restore":"Done"}</button>
       <button class="tiny-btn danger" data-action="delete-jar-v9" data-id="${x.id}">Delete</button>
-    </article>`).join("")}</div>`:empty("🎲","Your Adventure Jar is empty","Add only the little possibilities you actually want Ichigo to choose from.")}`;
+    </article>`).join("")}</div>`:empty("🎲","Your Adventure Jar is empty","Add only the little possibilities you actually want Michi to choose from.")}`;
 }
 
 function jarFormV9(item={}){
@@ -5421,7 +5421,7 @@ function pickJarV9(){
   const pool=trip().adventureJar.filter(x=>!x.done);
   if(!pool.length){notify("Add something to the jar first.");return}
   const pick=pool[Math.floor(Math.random()*pool.length)];
-  openModal("Ichigo picked…",`<div class="jar-pick-v9"><span>${esc(pick.emoji||"🎲")}</span><p class="eyebrow">YOUR LITTLE ADVENTURE</p><h2>${esc(pick.title)}</h2><p>${esc(pick.note||"")}</p><div class="btn-row"><button class="btn primary" data-action="jar-accept-v9" data-id="${pick.id}">Let's do it</button><button class="btn soft" data-action="pick-jar-v9">Pick again</button></div></div>`);
+  openModal("Michi picked…",`<div class="jar-pick-v9"><span>${esc(pick.emoji||"🎲")}</span><p class="eyebrow">YOUR LITTLE ADVENTURE</p><h2>${esc(pick.title)}</h2><p>${esc(pick.note||"")}</p><div class="btn-row"><button class="btn primary" data-action="jar-accept-v9" data-id="${pick.id}">Let's do it</button><button class="btn soft" data-action="pick-jar-v9">Pick again</button></div></div>`);
 }
 
 /* ---------- Backup Plans ---------- */
@@ -5680,7 +5680,7 @@ renderHome=function renderHomePlayfulV9(){
 /* ---------- What's New ---------- */
 ICHIGO_WHATS_NEW_V74.version=ICHIGO_CURRENT_VERSION;
 ICHIGO_WHATS_NEW_V74.items=[
-  "Fixed a startup initialization bug that could leave Ichigo on a blank screen.",
+  "Fixed a startup initialization bug that could leave Michi on a blank screen.",
   "Added a boot watchdog so startup failures show recovery controls instead of an empty page.",
   "Rechecked every hamburger route and first-run Explore destination.",
   "Hardened local saving, navigation and service-worker update behavior for smoother use.",
@@ -5717,7 +5717,7 @@ function routeIntegrityV91() {
 }
 
 function exploreMetaV91(route) {
-  if(!route)return {icon:"✦",title:"Ichigo",copy:"Explore Ichigo before creating your first trip."};
+  if(!route)return {icon:"✦",title:"Michi",copy:"Explore Michi before creating your first trip."};
 
   if(route.view==="plan" && PLAN_META_V8[route.sub]){
     const [icon,title,copy]=PLAN_META_V8[route.sub];
@@ -5761,7 +5761,7 @@ function exploreFeatureDetailsV91(routeId) {
     notes:["Keep general Trip Notes separate from quick Scratchpad ideas.","Search both later.","Nothing is pre-written."],
     timezones:["Add only the clocks you care about.","Use standard IANA time zones.","No city is added automatically."],
     essentials:["Keep hotel details, emergency contacts, documents and phrases offline.","Store local files in the document vault.","Your information stays on this device."],
-    jar:["Add your own little possibilities to the Adventure Jar.","Let Ichigo randomly pick from your unfinished ideas.","No fake suggestions are ever inserted."],
+    jar:["Add your own little possibilities to the Adventure Jar.","Let Michi randomly pick from your unfinished ideas.","No fake suggestions are ever inserted."],
     backup:["Create rainy-day, low-energy and sold-out alternatives.","Keep Plan B ideas separate from the main itinerary.","Use them only when you choose."],
     neighborhoods:["Group saved places into small area bundles.","Useful when you are already nearby and want more options.","Bundles only contain places you select."],
 
@@ -5796,7 +5796,7 @@ function exploreFeatureDetailsV91(routeId) {
     today:["Focus on the current and next activity.","Quickly mark done, delay, add spending or save memories.","Before a trip exists, this remains a clean preview."]
   };
   return details[routeId]||[
-    "This section is part of Ichigo's travel workflow.",
+    "This section is part of Michi's travel workflow.",
     "It remains empty until you add your own information.",
     "Create a trip whenever you're ready to use it."
   ];
@@ -5827,7 +5827,7 @@ function renderSpecificExploreRouteV91(routeId) {
 
       <div class="explore-route-empty-v91">
         <span>${meta.icon}</span>
-        <div><strong>This section is empty by design.</strong><p>Ichigo won't add sample entries just to make the screen look busy.</p></div>
+        <div><strong>This section is empty by design.</strong><p>Michi won't add sample entries just to make the screen look busy.</p></div>
       </div>
 
       <div class="explore-route-actions-v91">
@@ -5848,10 +5848,10 @@ drawerHTMLV8=function drawerHTMLNavigationFixedV91(){
   const groups=[...new Set(ROUTES_V8.map(x=>x.group))];
 
   return `<div class="drawer-backdrop-v8 ${drawerOpenV8?"open":""}" data-action="close-drawer-v8"></div>
-    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Ichigo menu">
+    <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Michi menu">
       <div class="drawer-head-v8">
-        <img src="./icons/icon-192-v41.png" alt="">
-        <div><strong>ichigo</strong><small>Explore every section</small></div>
+        <img src="./icons/icon-192-v42.png" alt="">
+        <div><strong>michi</strong><small>Explore every section</small></div>
         <button class="icon-btn" data-action="close-drawer-v8" aria-label="Close menu">✕</button>
       </div>
 
@@ -5891,7 +5891,7 @@ drawerHTMLV8=function drawerHTMLNavigationFixedV91(){
 navigateV8=function navigateRouteFixedV91(routeId,{closeDrawer=true}={}){
   const route=routeByIdV8(routeId);
   if(!route){
-    notify("That Ichigo section could not be found.");
+    notify("That Michi section could not be found.");
     return;
   }
 
@@ -5966,7 +5966,7 @@ function navigationDiagnosticsV91(){
 
 
 
-/* Ichigo 9.2 stability helpers */
+/* Michi 9.2 stability helpers */
 let ichigoDeferredRenderFrameV92 = 0;
 function requestIchigoRenderV92(){
   if(ichigoDeferredRenderFrameV92)return;
@@ -5993,7 +5993,7 @@ render=function renderRecoveryV92(){
   return result;
 };
 
-/* ---------- Ichigo 9 startup ---------- */
+/* ---------- Michi 9 startup ---------- */
 const previousAppVersionV9 = state.appVersion || "";
 const legacyDemoRemovedV71 = cleanLegacyDemoV71();
 migrateAllTripsV9(true);
@@ -6023,15 +6023,15 @@ if (!lastSeenVersionV9) {
   setTimeout(()=>showWhatsNewV74(false),500);
 }
 
-if (legacyDemoRemovedV71) setTimeout(()=>notify("Ichigo is ready for your first trip ✓"),250);
+if (legacyDemoRemovedV71) setTimeout(()=>notify("Michi is ready for your first trip ✓"),250);
 
 /* Startup completed. The inline boot watchdog in index.html can stand down. */
 window.__ICHIGO_BOOT_COMPLETE = true;
 document.documentElement.dataset.ichigoBoot = "ready";
 try {
   const navAudit = navigationDiagnosticsV91();
-  if (!navAudit.valid) console.warn("Ichigo navigation audit", navAudit.problems);
+  if (!navAudit.valid) console.warn("Michi navigation audit", navAudit.problems);
 } catch (error) {
-  console.warn("Ichigo navigation audit unavailable", error);
+  console.warn("Michi navigation audit unavailable", error);
 }
 

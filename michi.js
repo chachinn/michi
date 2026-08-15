@@ -14,24 +14,24 @@ const MICHI_NAME = "Michi";
   function replaceMichiText(value){
     if(value==null)return value;
     return String(value)
-      .replace(/Ichigo's local trip data/gi,"Michi's local trip data")
-      .replace(/Ichigo couldn't/gi,"Michi couldn't")
-      .replace(/Ichigo won't/gi,"Michi won't")
-      .replace(/Ichigo is ready/gi,"Michi is ready")
-      .replace(/Ichigo section/gi,"Michi section")
-      .replace(/Explore Ichigo/gi,"Explore Michi")
-      .replace(/Install Ichigo/gi,"Install Michi")
-      .replace(/Reload Ichigo/gi,"Reload Michi")
-      .replace(/local Ichigo data/gi,"local Michi data")
-      .replace(/personal Ichigo data/gi,"personal Michi data")
-      .replace(/valid Ichigo backup/gi,"valid Michi backup")
-      .replace(/Ichigo backup/gi,"Michi backup")
-      .replace(/Ichigo's travel workflow/gi,"Michi's travel workflow")
-      .replace(/Let Ichigo randomly pick/gi,"Let Michi choose a path")
-      .replace(/Let Ichigo pick/gi,"Let Michi choose")
-      .replace(/Personalize Ichigo/gi,"Personalize Michi")
-      .replace(/while Ichigo is open/gi,"while Michi is open")
-      .replace(/Opening Ichigo/gi,"Opening Michi")
+      .replace(/Michi's local trip data/gi,"Michi's local trip data")
+      .replace(/Michi couldn't/gi,"Michi couldn't")
+      .replace(/Michi won't/gi,"Michi won't")
+      .replace(/Michi is ready/gi,"Michi is ready")
+      .replace(/Michi section/gi,"Michi section")
+      .replace(/Explore Michi/gi,"Explore Michi")
+      .replace(/Install Michi/gi,"Install Michi")
+      .replace(/Reload Michi/gi,"Reload Michi")
+      .replace(/local Michi data/gi,"local Michi data")
+      .replace(/personal Michi data/gi,"personal Michi data")
+      .replace(/valid Michi backup/gi,"valid Michi backup")
+      .replace(/Michi backup/gi,"Michi backup")
+      .replace(/Michi's travel workflow/gi,"Michi's travel workflow")
+      .replace(/Let Michi randomly pick/gi,"Let Michi choose a path")
+      .replace(/Let Michi pick/gi,"Let Michi choose")
+      .replace(/Personalize Michi/gi,"Personalize Michi")
+      .replace(/while Michi is open/gi,"while Michi is open")
+      .replace(/Opening Michi/gi,"Opening Michi")
       .replace(/ICHIGO RECOVERY/gi,"MICHI RECOVERY")
       .replace(/EXPLORE ICHIGO/gi,"EXPLORE MICHI")
       .replace(/\bIchigo\b/g,"Michi")
@@ -72,7 +72,7 @@ const MICHI_NAME = "Michi";
     }});
     const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
     nodes.forEach(n=>{n.nodeValue=replaceMichiText(n.nodeValue)});
-    root.querySelectorAll?.('[aria-label*="Ichigo" i],[title*="Ichigo" i]').forEach(el=>{
+    root.querySelectorAll?.('[aria-label*="Michi" i],[title*="Michi" i]').forEach(el=>{
       if(el.hasAttribute("aria-label"))el.setAttribute("aria-label",replaceMichiText(el.getAttribute("aria-label")));
       if(el.hasAttribute("title"))el.setAttribute("title",replaceMichiText(el.getAttribute("title")));
     });
@@ -126,7 +126,7 @@ const MICHI_NAME = "Michi";
   if(typeof aboutIchigoCardV74==="function"){
     aboutIchigoCardV74=function aboutMichiCard(compact=false){
       return `<section class="card michi-about ${compact?"compact":""}">
-        <div class="michi-about-head"><img src="./icons/icon-192-v41.png" alt=""><div><strong>Michi</strong><small>道 · road, path, way</small></div></div>
+        <div class="michi-about-head"><img src="./icons/icon-192-v42.png" alt=""><div><strong>Michi</strong><small>道 · road, path, way</small></div></div>
         <p>Michi means ‘road,’ ‘path,’ or ‘way’ in Japanese. It fits a travel app built around discovering places, planning where to go next, and keeping every step of the journey together.</p>
       </section>`;
     };
@@ -182,7 +182,7 @@ const MICHI_NAME = "Michi";
     return `<div class="drawer-backdrop-v8 ${drawerOpenV8?"open":""}" data-action="close-drawer-v8"></div>
       <aside class="drawer-v8 ${drawerOpenV8?"open":""}" aria-label="Michi menu">
         <div class="drawer-head-v8">
-          <img src="./icons/icon-192-v41.png" alt="">
+          <img src="./icons/icon-192-v42.png" alt="">
           <div><strong>michi · 道</strong><small>${hasTrip?esc(trip().title):"Find your next path"}</small></div>
           <button class="icon-btn" data-action="close-drawer-v8" aria-label="Close menu">✕</button>
         </div>
@@ -219,7 +219,7 @@ const MICHI_NAME = "Michi";
   /* New name explanation and release note. */
   if(typeof showWhatsNewV74==="function" && typeof openModal==="function"){
     showWhatsNewV74=function showMichiWhatsNew(){
-      openModal("What’s New",`<div class="michi-about"><div class="michi-about-head"><img src="./icons/icon-192-v41.png" alt=""><div><strong>Michi has a new path.</strong><small>Complete identity redesign</small></div></div><p>The app now uses Michi’s journey-inspired design across navigation, planning, Today Mode, money, memories, menus, settings, empty states and offline surfaces. Your existing local trip data stays in place.</p></div>`);
+      openModal("What’s New",`<div class="michi-about"><div class="michi-about-head"><img src="./icons/icon-192-v42.png" alt=""><div><strong>Michi has a new path.</strong><small>Complete identity redesign</small></div></div><p>The app now uses Michi’s journey-inspired design across navigation, planning, Today Mode, money, memories, menus, settings, empty states and offline surfaces. Your existing local trip data stays in place.</p></div>`);
     };
   }
 

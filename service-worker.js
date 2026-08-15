@@ -1,5 +1,5 @@
 /* Michi — local-first PWA shell. */
-const CACHE_NAME = "michi-shell-v2-brandfix";
+const CACHE_NAME = "michi-shell-v3-brandfix";
 const RUNTIME_CACHE = "michi-runtime-v1-redesign";
 const TILE_CACHE = "michi-maptiles-v1-redesign";
 const LEGACY_CACHE_PREFIX = "ichigo-"; // one-release cleanup for pre-Michi installs
@@ -7,15 +7,15 @@ const LEGACY_CACHE_PREFIX = "ichigo-"; // one-release cleanup for pre-Michi inst
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20260815-michi-brandfix-2",
-  "./michi.css?v=20260815-michi-brandfix-2",
-  "./michi-ui.css?v=20260815-michi-brandfix-2",
-  "./app.js?v=20260815-michi-brandfix-2",
-  "./michi.js?v=20260815-michi-brandfix-2",
-  "./data/data.js?v=20260815-michi-brandfix-2",
-  "./data/db.js?v=20260815-michi-brandfix-2",
+  "./style.css?v=20260815-michi-brandfix-3",
+  "./michi.css?v=20260815-michi-brandfix-3",
+  "./michi-ui.css?v=20260815-michi-brandfix-3",
+  "./app.js?v=20260815-michi-brandfix-3",
+  "./michi.js?v=20260815-michi-brandfix-3",
+  "./data/data.js?v=20260815-michi-brandfix-3",
+  "./data/db.js?v=20260815-michi-brandfix-3",
   "./manifest.json",
-  "./manifest.json?v=20260815-michi-brandfix-2",
+  "./manifest.json?v=20260815-michi-brandfix-3",
   "./icons/apple-touch-icon-v42.png",
   "./icons/icon-192-v42.png",
   "./icons/icon-512-v42.png",

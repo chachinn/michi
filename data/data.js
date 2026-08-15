@@ -205,7 +205,7 @@ Object.assign(window.ICHIGO_DATA, {
 });
 
 
-/* Ichigo Builds 5–7: smart planning, story and release-readiness data. */
+/* Michi Builds 5–7: smart planning, story and release-readiness data. */
 Object.assign(window.ICHIGO_DATA, {
   appVersion: "7.0.0-personal",
   schemaVersion: 7,
@@ -222,7 +222,7 @@ Object.assign(window.ICHIGO_DATA, {
     { id:"daybudget", icon:"💴", label:"Day budget", description:"How much of the active day's budget remains." },
     { id:"scratchpad", icon:"⚡", label:"Scratchpad", description:"Count of quick travel notes waiting for you." },
     { id:"recent", icon:"🕘", label:"Recently changed", description:"The latest meaningful edit to the current trip." },
-    { id:"storage", icon:"💾", label:"Local media", description:"Approximate size of locally stored Ichigo attachments." }
+    { id:"storage", icon:"💾", label:"Local media", description:"Approximate size of locally stored Michi attachments." }
   ],
 
   journalPromptsV7: [
