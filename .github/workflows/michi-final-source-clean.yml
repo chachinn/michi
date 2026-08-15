@@ -1,0 +1,83 @@
+name: Michi final source cleanup
+
+on:
+  push:
+    paths:
+      - '.github/workflows/michi-final-source-clean.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Clean inherited public strings and icon references
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          text_paths = [
+            Path('index.html'), Path('app.js'), Path('style.css'), Path('michi.js'),
+            Path('michi.css'), Path('michi-ui.css'), Path('manifest.json'),
+            Path('service-worker.js'), Path('data/data.js'), Path('data/db.js')
+          ]
+
+          for p in text_paths:
+            if not p.exists():
+              continue
+            text = p.read_text(encoding='utf-8')
+            # v41 icon assets were intentionally retired in the previous QA pass.
+            text = text.replace('apple-touch-icon-v41.png', 'apple-touch-icon-v42.png')
+            text = text.replace('icon-192-v41.png', 'icon-192-v42.png')
+            text = text.replace('icon-512-v41.png', 'icon-512-v42.png')
+            text = text.replace('icon-maskable-512-v41.png', 'icon-maskable-512-v42.png')
+            # Standalone capitalized product-name references are presentation/history text,
+            # not persistence identifiers. Do not touch ICHIGO_* / ichigo-* / IchigoDB names.
+            text = re.sub(r'\bIchigo\b', 'Michi', text)
+            # A few old HTML wordmarks used a lowercase literal; replace only tag text.
+            text = text.replace('>ichigo<', '>michi<')
+            p.write_text(text, encoding='utf-8')
+
+          # Cache-bust this follow-up so installed PWAs fetch the corrected JS immediately.
+          for rel in ['index.html','service-worker.js']:
+            p=Path(rel)
+            text=p.read_text(encoding='utf-8').replace('20260815-michi-brandfix-2','20260815-michi-brandfix-3')
+            p.write_text(text,encoding='utf-8')
+          p=Path('service-worker.js')
+          p.write_text(p.read_text(encoding='utf-8').replace('michi-shell-v2-brandfix','michi-shell-v3-brandfix'),encoding='utf-8')
+
+          combined='\n'.join(p.read_text(encoding='utf-8') for p in text_paths if p.exists())
+          assert '🍓' not in combined, 'Strawberry emoji returned to production source'
+          assert '-v41.png' not in combined, 'Retired v41 icon reference remains'
+          # Compatibility identifiers must still exist after visible-name cleanup.
+          app=Path('app.js').read_text(encoding='utf-8')
+          db=Path('data/db.js').read_text(encoding='utf-8')
+          assert 'ichigo-build1-v1' in app, 'Legacy localStorage compatibility key was altered'
+          assert 'IchigoDB' in app and 'IchigoDB' in db, 'Legacy IndexedDB API compatibility alias was altered'
+          print('Final source identity assertions passed')
+          PY
+
+      - name: Static validation
+        run: |
+          node --check app.js
+          node --check michi.js
+          node --check service-worker.js
+          python3 -m json.tool manifest.json >/dev/null
+          if grep -R -q --fixed-strings '🍓' index.html app.js style.css michi.js michi.css michi-ui.css manifest.json service-worker.js data; then exit 1; fi
+          if grep -R -q --fixed-strings '-v41.png' index.html app.js style.css michi.js michi.css michi-ui.css manifest.json service-worker.js data; then exit 1; fi
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm -f .github/workflows/michi-final-source-clean.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Finish Michi source identity cleanup'
+          git push origin main
