@@ -1,70 +1,26 @@
 {
-  "name": "Ichigo — Trip Planner",
-  "short_name": "Ichigo",
-  "description": "Plan sweet little adventures with itinerary, places, budgets, bookings, offline travel tools, playful trip features and memories.",
+  "name": "Michi — Travel Planner",
+  "short_name": "Michi",
+  "description": "Discover places, plan the journey, travel day by day, and keep every step together before, during, and after a trip.",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#fff9f7",
-  "theme_color": "#ff6f91",
-  "categories": [
-    "travel",
-    "lifestyle",
-    "productivity"
-  ],
+  "background_color": "#fffaf7",
+  "theme_color": "#d78f9b",
+  "categories": ["travel", "lifestyle", "productivity"],
   "lang": "en",
   "icons": [
-    {
-      "src": "./icons/apple-touch-icon-v41.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-192-v41.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-512-v41.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-maskable-512-v41.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    {"src":"./icons/apple-touch-icon-v41.png","sizes":"180x180","type":"image/png","purpose":"any"},
+    {"src":"./icons/icon-192-v41.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"./icons/icon-512-v41.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"./icons/icon-maskable-512-v41.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
-    {
-      "name": "Today",
-      "short_name": "Today",
-      "description": "Open today's trip",
-      "url": "./index.html#today"
-    },
-    {
-      "name": "Trip Inbox",
-      "short_name": "Inbox",
-      "description": "Open the Trip Inbox",
-      "url": "./index.html#inbox"
-    },
-    {
-      "name": "Search",
-      "short_name": "Search",
-      "description": "Search the current trip",
-      "url": "./index.html#search"
-    },
-    {
-      "name": "Add Expense",
-      "short_name": "Expense",
-      "description": "Add an expense",
-      "url": "./index.html#expense"
-    }
+    {"name":"Today","short_name":"Today","description":"Open today's journey","url":"./index.html#today"},
+    {"name":"Trip Inbox","short_name":"Inbox","description":"Open your trip inbox","url":"./index.html#inbox"},
+    {"name":"Search","short_name":"Search","description":"Search the current trip","url":"./index.html#search"},
+    {"name":"Add Expense","short_name":"Expense","description":"Record an expense","url":"./index.html#expense"}
   ]
 }

@@ -1,17 +1,21 @@
-/* Ichigo Build 7 — Personal Release-Ready Offline Layer */
-const CACHE_NAME = "ichigo-build9-2-recovery-v1";
-const RUNTIME_CACHE = "ichigo-build9-2-runtime-v1";
-const TILE_CACHE = "ichigo-build9-2-maptiles-v1";
+/* Michi — local-first PWA shell. */
+const CACHE_NAME = "michi-shell-v1-redesign";
+const RUNTIME_CACHE = "michi-runtime-v1-redesign";
+const TILE_CACHE = "michi-maptiles-v1-redesign";
+const LEGACY_CACHE_PREFIX = "ichigo-"; // one-release cleanup for pre-Michi installs
 
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css?v=20260812-build92-recovery",
-  "./app.js?v=20260812-build92-recovery",
-  "./data/data.js?v=20260812-build92-recovery",
-  "./data/db.js?v=20260812-build92-recovery",
+  "./style.css?v=20260815-michi-redesign-1",
+  "./michi.css?v=20260815-michi-redesign-1",
+  "./michi-ui.css?v=20260815-michi-redesign-1",
+  "./app.js?v=20260815-michi-redesign-1",
+  "./michi.js?v=20260815-michi-redesign-1",
+  "./data/data.js?v=20260815-michi-redesign-1",
+  "./data/db.js?v=20260815-michi-redesign-1",
   "./manifest.json",
-  "./manifest.json?v=20260812-build92-recovery",
+  "./manifest.json?v=20260815-michi-redesign-1",
   "./icons/apple-touch-icon-v41.png",
   "./icons/icon-192-v41.png",
   "./icons/icon-512-v41.png",
@@ -19,12 +23,10 @@ const APP_SHELL = [
 ];
 
 self.addEventListener("install", event => {
-  /* Keep updates waiting for the visible Update button. Cache each core file
-     independently so one failed optional fetch cannot invalidate the whole install. */
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
       Promise.all(APP_SHELL.map(url => cache.add(url).catch(error => {
-        console.warn("Ichigo shell cache skipped", url, error);
+        console.warn("Michi shell cache skipped", url, error);
         return null;
       })))
     )
@@ -35,13 +37,19 @@ self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(key => key.startsWith("ichigo-") && ![CACHE_NAME,RUNTIME_CACHE,TILE_CACHE].includes(key))
-          .map(key => caches.delete(key))
+        keys.filter(key =>
+          (key.startsWith("michi-") || key.startsWith(LEGACY_CACHE_PREFIX)) &&
+          ![CACHE_NAME, RUNTIME_CACHE, TILE_CACHE].includes(key)
+        ).map(key => caches.delete(key))
       ))
       .then(() => self.clients.claim())
       .then(async () => {
         const clients = await self.clients.matchAll({type:"window"});
-        clients.forEach(client => client.postMessage({type:"ICHIGO_SW_ACTIVATED",cache:CACHE_NAME}));
+        clients.forEach(client => {
+          client.postMessage({type:"MICHI_SW_ACTIVATED",cache:CACHE_NAME});
+          /* Compatibility event for the inherited update listener. */
+          client.postMessage({type:"ICHIGO_SW_ACTIVATED",cache:CACHE_NAME});
+        });
       })
   );
 });
@@ -96,7 +104,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  /* Keep the Leaflet library available after it has loaded online once. */
   if(url.hostname==="unpkg.com"){
     event.respondWith(
       caches.open(RUNTIME_CACHE).then(async cache=>{
@@ -108,8 +115,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  /* Map tiles are opportunistic, bounded runtime cache—not a promise that an
-     entire city is downloadable. */
   if(url.hostname==="tile.openstreetmap.org"){
     event.respondWith(
       fetch(event.request)
@@ -121,12 +126,6 @@ self.addEventListener("fetch", event => {
 
 self.addEventListener("message", event => {
   if(event.data?.type==="SKIP_WAITING")self.skipWaiting();
-
-  if(event.data?.type==="CLEAR_RUNTIME"){
-    event.waitUntil(Promise.all([caches.delete(RUNTIME_CACHE),caches.delete(TILE_CACHE)]));
-  }
-
-  if(event.data?.type==="WARM_SHELL"){
-    event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
-  }
+  if(event.data?.type==="CLEAR_RUNTIME")event.waitUntil(Promise.all([caches.delete(RUNTIME_CACHE),caches.delete(TILE_CACHE)]));
+  if(event.data?.type==="WARM_SHELL")event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
 });
